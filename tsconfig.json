@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "ES2023",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    // "strict": true
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "removeComments": true,
+    // "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true
+    // "noUnusedParameters": true
+  },
+  "exclude": ["node_modules"]
+}
