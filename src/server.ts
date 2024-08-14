@@ -10,10 +10,6 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5401;
 
-app.use("/", async (req: Request, res: Response) => {
-  res.status(200).json({ msg: "" });
-});
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(`Error handled: ${err}`);
 });
