@@ -15,8 +15,8 @@ The backend for the application `Respo`.
 `Express.js` is the backend framework, but there are a number of packages used to create an efficient and scalable application. The important ones are described below:
 
 - `Apollo Server` creates the endpoint for the frontend to communicate with the backend.
-- `TypeGraphQL` simplifies TypeScript schema and resolver definitions.
-- `TypeORM` allows the backend to connect to the `PostgreSQL` database hosted on `AWS`. As for input validation, `class-validator` enables the use of decorators to further restrict entity definitions.
+- `TypeGraphQL` simplifies TypeScript schema and resolver definitions. As for input validation, `class-validator` enables the use of decorators to further restrict entity definitions.
+- `TypeORM` allows the backend to connect to the `PostgreSQL` database hosted on `AWS`.
 - `AWS` hosts the backend for production.
 
 ## _Deployment_
