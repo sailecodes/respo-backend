@@ -2,21 +2,19 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import Song from "./Song";
 
 @Entity()
-class Artist {
+export default class Artist {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column("varchar")
   name: string;
 
   @OneToMany(() => Song, (song) => song.artist)
   songs: Song[];
 
-  @Column()
+  @Column("int", { default: 0 })
   listens: number;
 
-  @Column()
-  verified: boolean;
+  @Column("boolean", { default: false })
+  isVerified: boolean;
 }
-
-export default Artist;

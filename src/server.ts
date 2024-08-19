@@ -3,7 +3,7 @@ import "reflect-metadata";
 import * as dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
-import db from "./db/connection";
+import dataSource from "./db/dataSource";
 
 import { testMethod } from "./db/controllers/testUserController";
 
@@ -23,7 +23,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   else console.error(`Error handled: ${err.message}`);
 });
 
-db.initialize().then(() =>
+dataSource.initialize().then(() =>
   app.listen(port, () => {
     console.log(`[Server message] Server listening on http://localhost:${port}`);
   })

@@ -1,8 +1,9 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "typeorm";
 import Song from "./Song";
+import Playlist from "./Playlist";
 
 @Entity()
-class User {
+export default class User {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -10,7 +11,7 @@ class User {
   email: string;
 
   @Column("boolean", { default: false })
-  emailConfirmed: boolean;
+  hasConfirmedEmail: boolean;
 
   @Column("varchar", { unique: true })
   username: string;
@@ -18,8 +19,10 @@ class User {
   @Column("varchar")
   password: string;
 
-  @OneToMany(() => Song, (song) => song.savedBy)
+  // Note: A User can save many songs, and a Song can be saved by many Users.
+  @ManyToMany(() => Song)
   savedSongs: Song[];
-}
 
-export default User;
+  @OneToMany(() => Playlist, (playlist) => playlist.owner)
+  playlists: Playlist[];
+}

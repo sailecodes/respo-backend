@@ -1,10 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import Artist from "./Artist";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import GenreEnum from "../../ts-lib/enum/GenreEnum";
-import User from "./User";
+import Artist from "./Artist";
 
 @Entity()
-class Song {
+export default class Song {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -18,16 +17,11 @@ class Song {
   artist: Artist;
 
   @Column("varchar")
-  name: string;
+  title: string;
 
   @Column("enum", { enum: GenreEnum })
   genre: GenreEnum;
 
   @Column("int", { default: 0 })
   plays: number;
-
-  @ManyToOne(() => User, (user) => user.savedSongs)
-  savedBy: User;
 }
-
-export default Song;
