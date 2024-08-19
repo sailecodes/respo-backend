@@ -16,7 +16,7 @@ export default class Song {
   @ManyToOne(() => Artist, (artist) => artist.songs)
   artist: Artist;
 
-  @Column("varchar")
+  @Column("varchar", { length: 100 })
   title: string;
 
   @Column("enum", { enum: GenreEnum })

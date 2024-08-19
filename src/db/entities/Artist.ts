@@ -9,6 +9,7 @@ export default class Artist {
   @Column("varchar")
   name: string;
 
+  // An Artist can make many Songs, and a Song belongs to one Artist
   @OneToMany(() => Song, (song) => song.artist)
   songs: Song[];
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import Song from "./Song";
 import Playlist from "./Playlist";
 
@@ -13,16 +13,18 @@ export default class User {
   @Column("boolean", { default: false })
   hasConfirmedEmail: boolean;
 
-  @Column("varchar", { unique: true })
+  @Column("varchar", { unique: true, length: 20 })
   username: string;
 
   @Column("varchar")
   password: string;
 
-  // Note: A User can save many songs, and a Song can be saved by many Users.
+  // A User can save many Songs, and a Song can be saved by many Users
   @ManyToMany(() => Song)
+  @JoinTable()
   savedSongs: Song[];
 
+  // A User can create many Playlists, and a Playlist belongs to one User
   @OneToMany(() => Playlist, (playlist) => playlist.owner)
   playlists: Playlist[];
 }
