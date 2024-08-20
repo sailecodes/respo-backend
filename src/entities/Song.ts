@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import GenreEnum from "../../ts-lib/enum/GenreEnum";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity } from "typeorm";
+import GenreEnum from "../ts-lib/enum/GenreEnum";
 import Artist from "./Artist";
 
 @Entity()
-export default class Song {
+export default class Song extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

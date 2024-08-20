@@ -1,30 +1,37 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable, BaseEntity } from "typeorm";
+import { Field, ObjectType } from "type-graphql";
 import Song from "./Song";
 import Playlist from "./Playlist";
 
+@ObjectType()
 @Entity()
-export default class User {
+export default class User extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column("varchar", { unique: true })
+  @Field()
+  @Column({ unique: true })
   email: string;
 
-  @Column("boolean", { default: false })
+  @Column({ default: false })
   hasConfirmedEmail: boolean;
 
-  @Column("varchar", { unique: true, length: 20 })
+  @Field()
+  @Column({ unique: true, length: 20 })
   username: string;
 
-  @Column("varchar")
+  @Column()
   password: string;
 
   // A User can save many Songs, and a Song can be saved by many Users
+  @Field(() => [Song])
   @ManyToMany(() => Song)
   @JoinTable()
   savedSongs: Song[];
 
   // A User can create many Playlists, and a Playlist belongs to one User
+  @Field(() => [Playlist])
   @OneToMany(() => Playlist, (playlist) => playlist.owner)
   playlists: Playlist[];
 }

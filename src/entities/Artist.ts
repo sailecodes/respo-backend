@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from "typeorm";
 import Song from "./Song";
 
 @Entity()
-export default class Artist {
+export default class Artist extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

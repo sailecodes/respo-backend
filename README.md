@@ -6,9 +6,9 @@ The backend for the application `Respo`.
 
 ### Top-level
 
-| Framework  | API Handler   | GraphQL Framework | Database   | ORM     | Cloud Services |
-| ---------- | ------------- | ----------------- | ---------- | ------- | -------------- |
-| Express.js | Apollo Server | TypeGraphQL       | PostgreSQL | TypeORM | AWS            |
+| Framework  | API Handler   | GraphQL Framework | Database   | ORM     | Cloud Services  |
+| ---------- | ------------- | ----------------- | ---------- | ------- | --------------- |
+| Express.js | Apollo Server | TypeGraphQL       | PostgreSQL | TypeORM | AWS EC2 and RDS |
 
 ### Bottom-level
 
@@ -16,7 +16,7 @@ The backend for the application `Respo`.
 
 - `Apollo Server` creates the endpoint for the frontend to communicate with the backend.
 - `TypeGraphQL` simplifies TypeScript schema and resolver definitions. As for input validation, `class-validator` enables the use of decorators to further restrict entity definitions.
-- `TypeORM` allows the backend to connect to the `PostgreSQL` database hosted on `AWS`.
+- `TypeORM` allows the backend to connect to the `PostgreSQL` database on `AWS RDS`.
 - `AWS` hosts the backend for production.
 
 ## _Deployment_
