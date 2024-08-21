@@ -20,10 +20,10 @@ const main = async () => {
 
   const app = express();
   const httpServer = http.createServer(app);
-  const port = process.env.PORT || 5401;
+  const port = process.env.PORT || 4001;
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({ resolvers: [User] }),
+    schema: await buildSchema({ resolvers: [User], validate: true }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
@@ -44,7 +44,7 @@ const main = async () => {
 
   dataSource.initialize().then(async () => {
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve));
-    console.log(`[Server message] GraphQL endpoint at http://localhost:${port}`);
+    console.log(`\n[Server message]\n\nGraphQL endpoint at http://localhost:${port}/graphql`);
   });
 };
 

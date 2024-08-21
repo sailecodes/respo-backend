@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
 import User from "./User";
 import Song from "./Song";
 
 @ObjectType()
 @Entity()
-export default class Playlist extends BaseEntity {
+export default class Playlist {
   @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
