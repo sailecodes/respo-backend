@@ -1,22 +1,33 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6"],
-    "target": "es2023",
-    "module": "es2022",
+    /* Directories */
+    "rootDir": "src",
+    "outDir": "dist",
+
+    /* --- */
+    "target": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "outDir": "./dist",
+    "esModuleInterop": true,
+
+    /* TypeORM and TypeGraphQL requirements */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "esModuleInterop": true,
-    // "strict": true
+
+    /* General checks */
+    "strict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-    "removeComments": true,
-    // "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true
-    // "noUnusedParameters": true
+    "noUnusedLocals": true,
+    "removeComments": true,
+
+    /* Misc. */
+    "sourceMap": true,
+    "skipLibCheck": true
   },
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
