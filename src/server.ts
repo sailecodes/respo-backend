@@ -36,7 +36,7 @@ const main = async () => {
   app.use("/graphql", express.json(), cors(), expressMiddleware(apolloServer));
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log(`[Server message] Error: ${err}`);
+    console.log(`[Server message] ${err}`);
   });
   // ==============================================
   // Server initialization
