@@ -1,7 +1,7 @@
 import dataSource from "../../dataSource";
 import User from "../../entities/User";
 import AddUserInput from "./inputs/AddUserInput";
-import GetUserArgs from "./args/GetUserArgs";
+import UserIdArgs from "../utils/args/UserIdArgs";
 import UpdateUserInput from "./inputs/UpdateUserInput";
 
 const userRepo = dataSource.getRepository(User).extend({
@@ -9,22 +9,31 @@ const userRepo = dataSource.getRepository(User).extend({
     return await this.find();
   },
 
-  async getUser({ userId }: GetUserArgs) {
-    const existingUser = this.findOneBy({ id: userId });
-
-    if (!existingUser) return null;
-
-    return existingUser;
+  async getUser({ userId }: UserIdArgs) {
+    return await this.findOneBy({ id: userId });
   },
 
   async addUser(addUserInput: AddUserInput) {
-    return await this.insert(this.create(addUserInput));
+    const newUser = this.create(addUserInput);
+    const newUserId = (await this.insert(newUser)).identifiers[0].id;
+
+    return this.findOneBy({ id: newUserId });
   },
 
   async updateUser({ userId, ...rest }: UpdateUserInput) {
-    if ((await this.update(userId, rest)).affected === 0) return null;
+    const isUpdateSuccessful = (await this.update(userId, rest)).affected;
+
+    if (isUpdateSuccessful === 0) return null;
 
     return await this.findOneBy({ id: userId });
+  },
+
+  async deleteUser({ userId }: UserIdArgs) {
+    const isDeleteSuccessful = (await this.delete(userId)).affected;
+
+    if (isDeleteSuccessful === 0) return false;
+
+    return true;
   },
 });
 

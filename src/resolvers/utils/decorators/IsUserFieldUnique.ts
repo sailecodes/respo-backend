@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from "class-validator";
-import userRepo from "../../resolvers/user/userRepo";
+import userRepo from "../../user/userRepo";
 
 export function IsUserFieldUnique(property: string, validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
