@@ -1,7 +1,8 @@
 import dataSource from "../../dataSource";
 import User from "../../entities/User";
-import AddUserArgs from "./args/AddUserArgs";
+import AddUserInput from "./inputs/AddUserInput";
 import GetUserArgs from "./args/GetUserArgs";
+import UpdateUserInput from "./inputs/UpdateUserInput";
 
 const userRepo = dataSource.getRepository(User).extend({
   async getAllUsers() {
@@ -9,22 +10,24 @@ const userRepo = dataSource.getRepository(User).extend({
   },
 
   async getUser({ userId }: GetUserArgs) {
-    const existingUser = this.findOne({
-      where: {
-        id: userId,
-      },
-    });
+    const existingUser = this.findOneBy({ id: userId });
 
-    // TODO: Update error
-    if (!existingUser) throw Error("User does not exist.");
+    if (!existingUser) return null;
 
     return existingUser;
   },
 
-  async addUser(addUserArgs: AddUserArgs) {
-    const createdUser = this.create(addUserArgs);
+  async addUser(addUserInput: AddUserInput) {
+    return await this.insert(this.create(addUserInput));
+  },
 
-    return await this.save(createdUser);
+  // FIXME: Find more efficient implementation
+  async updateUser({ userId, ...rest }: UpdateUserInput) {
+    if (!(await this.existsBy({ id: userId }))) return null;
+
+    await this.update(userId, rest);
+
+    return await this.findOneBy({ id: userId });
   },
 });
 

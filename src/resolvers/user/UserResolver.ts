@@ -1,8 +1,9 @@
-import { Args, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import User from "../../entities/User";
 import userRepo from "./userRepo";
-import AddUserArgs from "./args/AddUserArgs";
+import AddUserInput from "./inputs/AddUserInput";
 import GetUserArgs from "./args/GetUserArgs";
+import UpdateUserInput from "./inputs/UpdateUserInput";
 
 @Resolver()
 export default class UserResolver {
@@ -17,8 +18,14 @@ export default class UserResolver {
     return await userRepo.getUser(getUserArgs);
   }
 
-  @Query(() => User)
-  async addUser(@Args() addUserArgs: AddUserArgs) {
-    return await userRepo.addUser(addUserArgs);
+  @Mutation(() => User)
+  async addUser(@Arg("addUserInput") addUserInput: AddUserInput) {
+    return await userRepo.addUser(addUserInput);
+  }
+
+  // Has the same return logic as getUser (see above)
+  @Mutation(() => User, { nullable: true })
+  async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput) {
+    return await userRepo.updateUser(updateUserInput);
   }
 }

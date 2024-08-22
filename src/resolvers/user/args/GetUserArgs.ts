@@ -1,9 +1,9 @@
 import { IsUUID } from "class-validator";
-import { ArgsType, Field } from "type-graphql";
+import { ArgsType, Field, ID } from "type-graphql";
 
 @ArgsType()
 export default class GetUserArgs {
-  @Field()
+  @Field(() => ID)
   @IsUUID()
   userId: string;
 }
