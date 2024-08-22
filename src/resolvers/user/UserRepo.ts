@@ -21,11 +21,8 @@ const userRepo = dataSource.getRepository(User).extend({
     return await this.insert(this.create(addUserInput));
   },
 
-  // FIXME: Find more efficient implementation
   async updateUser({ userId, ...rest }: UpdateUserInput) {
-    if (!(await this.existsBy({ id: userId }))) return null;
-
-    await this.update(userId, rest);
+    if ((await this.update(userId, rest)).affected === 0) return null;
 
     return await this.findOneBy({ id: userId });
   },

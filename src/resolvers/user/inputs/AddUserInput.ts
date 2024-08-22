@@ -11,7 +11,7 @@ export default class AddUserInput {
   email: string;
 
   @Field()
-  @Length(3, 15)
+  @Length(3, 20)
   @IsUserFieldUnique("username", { message: IS_USERNAME_UNIQUE_ERR_MESSAGE })
   username: string;
 
