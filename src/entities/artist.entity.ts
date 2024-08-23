@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Field, Int, ObjectType } from "type-graphql";
-import Song from "./Song";
+import { SongEntity } from "./song.entity";
 
 @ObjectType()
-@Entity()
-export default class Artist {
+@Entity("Artist")
+export class ArtistEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -23,9 +23,9 @@ export default class Artist {
    *  - Has a One to Many relation with the Song entity to indicate that an Artist can create
    *    many Songs and a Song can only belong to one Artist
    */
-  @Field(() => [Song], { nullable: true })
-  @OneToMany(() => Song, (song) => song.artist, { nullable: true })
-  songs?: Song[];
+  @Field(() => [SongEntity], { nullable: true })
+  @OneToMany(() => SongEntity, (songEntity) => songEntity.artist, { nullable: true })
+  songs?: SongEntity[];
 
   @Field(() => Int)
   @Column("int", { default: 0 })

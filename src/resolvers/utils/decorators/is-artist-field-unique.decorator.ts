@@ -1,7 +1,7 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from "class-validator";
-import artistRepo from "../../artist/artistRepo";
+import { artistRepo } from "../../artist/artist.repo";
 
-export function IsArtistFieldUnique(property: string, validationOptions?: ValidationOptions) {
+export const IsArtistFieldUnique = (property: string, validationOptions?: ValidationOptions) => {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: "IsArtistFieldUnique",
@@ -16,4 +16,4 @@ export function IsArtistFieldUnique(property: string, validationOptions?: Valida
       },
     });
   };
-}
+};

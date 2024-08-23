@@ -1,3 +1,3 @@
-export { default as UserResolver } from "./user/UserResolver";
-export { default as SongResolver } from "./song/SongResolver";
-export { default as ArtistResolver } from "./artist/ArtistResolver";
+export { UserResolver } from "./user/user.resolver";
+export { SongResolver } from "./song/song.resolver";
+export { ArtistResolver } from "./artist/artist.resolver";

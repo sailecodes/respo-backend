@@ -1,13 +1,13 @@
-import dataSource from "../../dataSource";
-import User from "../../entities/User";
-import AddUserInput from "./inputs/AddUserInput";
-import UserIdArgs from "../utils/args/UserIdArgs";
-import UpdateUserInput from "./inputs/UpdateUserInput";
+import { dataSource } from "../../dataSource";
+import { UserEntity } from "../../entities/user.entity";
+import { UserIdArgs } from "../utils/args/user-id.args";
+import { AddUserInput } from "./inputs/add-user.input";
+import { UpdateUserInput } from "./inputs/update-user.input";
 
 /**
  * See UserResolver.ts for method descriptions
  */
-const userRepo = dataSource.getRepository(User).extend({
+export const userRepo = dataSource.getRepository(UserEntity).extend({
   async getAllUsers() {
     return await this.find();
   },
@@ -48,5 +48,3 @@ const userRepo = dataSource.getRepository(User).extend({
   //   user.savedSongs.push(songToSave);
   // },
 });
-
-export default userRepo;

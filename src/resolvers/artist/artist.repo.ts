@@ -1,8 +1,8 @@
-import dataSource from "../../dataSource";
-import Artist from "../../entities/Artist";
-import AddArtistInput from "./inputs/AddArtistInput";
+import { dataSource } from "../../dataSource";
+import { ArtistEntity } from "../../entities/artist.entity";
+import { AddArtistInput } from "./inputs/add-artist.input";
 
-const artistRepo = dataSource.getRepository(Artist).extend({
+export const artistRepo = dataSource.getRepository(ArtistEntity).extend({
   async addArtist(addArtistInput: AddArtistInput) {
     const newArtist = this.create(addArtistInput);
     const newArtistId = (await this.insert(newArtist)).identifiers[0].id;
@@ -10,5 +10,3 @@ const artistRepo = dataSource.getRepository(Artist).extend({
     return await this.findOneBy({ id: newArtistId });
   },
 });
-
-export default artistRepo;

@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
-import User from "./User";
-import Song from "./Song";
+import { UserEntity } from "./user.entity";
+import { SongEntity } from "./song.entity";
 
 @ObjectType()
-@Entity()
-export default class Playlist {
+@Entity("Playlist")
+export class PlaylistEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -14,13 +14,13 @@ export default class Playlist {
   @Column("varchar", { length: 50 })
   name: string;
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.playlists)
-  owner: User;
+  @Field(() => UserEntity)
+  @ManyToOne(() => UserEntity, (userEntity) => userEntity.playlists)
+  owner: UserEntity;
 
   // A Playlist can have many songs, and a Song can belong to many Playlists
-  @Field(() => [Song])
-  @ManyToMany(() => Song)
+  @Field(() => [SongEntity])
+  @ManyToMany(() => SongEntity)
   @JoinTable()
-  songs: Song[];
+  songs: SongEntity[];
 }

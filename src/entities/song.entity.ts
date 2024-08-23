@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Field, Int, ObjectType } from "type-graphql";
-import GenreEnum from "../resolvers/utils/enum/GenreEnum";
-import Artist from "./Artist";
+import { ArtistEntity } from "./artist.entity";
+import GenreEnum from "../resolvers/utils/enum/genre.enum";
 
 @ObjectType()
-@Entity()
-export default class Song {
+@Entity("Song")
+export class SongEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -18,9 +18,9 @@ export default class Song {
   @Column("varchar", { unique: true })
   audioUrl: string;
 
-  @Field(() => Artist)
-  @ManyToOne(() => Artist, (artist) => artist.songs)
-  artist: Artist;
+  @Field(() => ArtistEntity)
+  @ManyToOne(() => ArtistEntity, (artistEntity) => artistEntity.songs)
+  artist: ArtistEntity;
 
   @Field()
   @Column("varchar", { length: 100 })

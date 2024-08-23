@@ -1,9 +1,9 @@
 import { Field, ID, InputType } from "type-graphql";
 import { IsEnum, Length } from "class-validator";
-import GenreEnum from "../../utils/enum/GenreEnum";
+import GenreEnum from "../../utils/enum/genre.enum";
 
 @InputType()
-export default class AddSongInput {
+export class AddSongInput {
   @Field({ nullable: true })
   imgUrl?: string;
 

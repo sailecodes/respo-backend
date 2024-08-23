@@ -1,10 +1,10 @@
 import { IsEmail, Length, MinLength } from "class-validator";
 import { Field, InputType } from "type-graphql";
-import { IsUserFieldUnique } from "../../utils/decorators/IsUserFieldUnique";
+import { IsUserFieldUnique } from "../../utils/decorators/is-user-field-unique.decorator";
 import { IS_EMAIL_UNIQUE_ERR_MESSAGE, IS_USERNAME_UNIQUE_ERR_MESSAGE } from "../../../constants";
 
 @InputType()
-export default class AddUserInput {
+export class AddUserInput {
   @Field()
   @IsEmail()
   @IsUserFieldUnique("email", { message: IS_EMAIL_UNIQUE_ERR_MESSAGE })

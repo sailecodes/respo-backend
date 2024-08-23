@@ -1,7 +1,7 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from "class-validator";
-import userRepo from "../../user/userRepo";
+import { userRepo } from "../../user/user.repo";
 
-export function IsUserFieldUnique(property: string, validationOptions?: ValidationOptions) {
+export const IsUserFieldUnique = (property: string, validationOptions?: ValidationOptions) => {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: "IsUserFieldUnique",
@@ -23,4 +23,4 @@ export function IsUserFieldUnique(property: string, validationOptions?: Validati
       },
     });
   };
-}
+};

@@ -1,10 +1,10 @@
 import { DataSource } from "typeorm";
-import User from "./entities/User";
-import Artist from "./entities/Artist";
-import Song from "./entities/Song";
-import Playlist from "./entities/Playlist";
+import { UserEntity } from "./entities/user.entity";
+import { ArtistEntity } from "./entities/artist.entity";
+import { SongEntity } from "./entities/song.entity";
+import { PlaylistEntity } from "./entities/playlist.entity";
 
-const dataSource = new DataSource({
+export const dataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   database: "dev_respo",
@@ -12,7 +12,5 @@ const dataSource = new DataSource({
   username: "test",
   password: "test",
   synchronize: true,
-  entities: [User, Artist, Song, Playlist],
+  entities: [UserEntity, ArtistEntity, SongEntity, PlaylistEntity],
 });
-
-export default dataSource;

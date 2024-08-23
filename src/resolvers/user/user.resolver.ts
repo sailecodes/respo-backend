@@ -1,15 +1,15 @@
 import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
-import User from "../../entities/User";
-import userRepo from "./userRepo";
-import AddUserInput from "./inputs/AddUserInput";
-import UserIdArgs from "../utils/args/UserIdArgs";
-import UpdateUserInput from "./inputs/UpdateUserInput";
+import { userRepo } from "./user.repo";
+import { AddUserInput } from "./inputs/add-user.input";
+import { UpdateUserInput } from "./inputs/update-user.input";
+import { UserIdArgs } from "../utils/args/user-id.args";
+import { UserEntity } from "../../entities/user.entity";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User Entity
  */
 @Resolver()
-export default class UserResolver {
+export class UserResolver {
   /**
    * Gets an array of every User
    *
@@ -19,7 +19,7 @@ export default class UserResolver {
    *
    * @returns An array of every User or an empty array
    */
-  @Query(() => [User])
+  @Query(() => [UserEntity])
   async getAllUsers() {
     return await userRepo.getAllUsers();
   }
@@ -30,7 +30,7 @@ export default class UserResolver {
    * @param userIdArgs An object containing the User id
    * @returns The User that matches the id or null if no user exists with the id
    */
-  @Query(() => User, { nullable: true })
+  @Query(() => UserEntity, { nullable: true })
   async getUser(@Args() userIdArgs: UserIdArgs) {
     return await userRepo.getUser(userIdArgs);
   }
@@ -45,7 +45,7 @@ export default class UserResolver {
    * @param addUserInput The User information
    * @returns A newly created User
    */
-  @Mutation(() => User)
+  @Mutation(() => UserEntity)
   async addUser(@Arg("addUserInput") addUserInput: AddUserInput) {
     return (await userRepo.addUser(addUserInput))!;
   }
@@ -59,7 +59,7 @@ export default class UserResolver {
    * @param updateUserInput An object containing new User information
    * @returns The updated User or null if no user exists with the id
    */
-  @Mutation(() => User, { nullable: true })
+  @Mutation(() => UserEntity, { nullable: true })
   async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput) {
     return await userRepo.updateUser(updateUserInput);
   }

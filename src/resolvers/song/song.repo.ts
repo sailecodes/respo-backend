@@ -1,9 +1,9 @@
-import dataSource from "../../dataSource";
-import Song from "../../entities/Song";
-import artistRepo from "../artist/artistRepo";
-import AddSongInput from "./inputs/AddSongInput";
+import { dataSource } from "../../dataSource";
+import { SongEntity } from "../../entities/song.entity";
+import { artistRepo } from "../artist/artist.repo";
+import { AddSongInput } from "./inputs/add-song.input";
 
-const songRepo = dataSource.getRepository(Song).extend({
+export const songRepo = dataSource.getRepository(SongEntity).extend({
   async addSong({ artistId, ...rest }: AddSongInput) {
     const songArtist = await artistRepo.findOneBy({ id: artistId });
 
@@ -15,5 +15,3 @@ const songRepo = dataSource.getRepository(Song).extend({
     return await this.findOne({ where: { id: newSongId }, relations: { artist: true } });
   },
 });
-
-export default songRepo;
