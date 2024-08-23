@@ -1,6 +1,6 @@
-# Respo Backend
+# Respo
 
-The backend for the application `Respo`.
+The source code for the application `Respo`, a Spotify-wannabe-clone.
 
 ## _Layers_
 
