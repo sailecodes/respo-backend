@@ -9,7 +9,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { buildSchema } from "type-graphql";
 import dataSource from "./dataSource";
-import { SongResolver, UserResolver } from "./resolvers/index";
+import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
 
 const main = async () => {
   // ==============================================
@@ -23,7 +23,7 @@ const main = async () => {
   const port = process.env.PORT || 4001;
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({ resolvers: [UserResolver, SongResolver], validate: true }),
+    schema: await buildSchema({ resolvers: [UserResolver, SongResolver, ArtistResolver], validate: true }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 

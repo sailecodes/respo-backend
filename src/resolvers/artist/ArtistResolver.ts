@@ -1,17 +1,21 @@
-import { Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
+import artistRepo from "./artistRepo";
+import AddArtistInput from "./inputs/AddArtistInput";
+import Artist from "../../entities/Artist";
 
 @Resolver()
-class ArtistResolver {
-  @Query()
-  async getArtist() {}
+export default class ArtistResolver {
+  // @Query()
+  // async getArtist() {}
 
-  // FIXME: Delete
-  @Mutation()
-  async addArtist() {}
+  @Mutation(() => Artist)
+  async addArtist(@Arg("addArtistInput") addArtistInput: AddArtistInput) {
+    return (await artistRepo.addArtist(addArtistInput))!;
+  }
 
-  @Mutation()
-  async updateArtist() {}
+  // @Mutation()
+  // async updateArtist() {}
 
-  @Mutation()
-  async deleteArtist() {}
+  // @Mutation()
+  // async deleteArtist() {}
 }

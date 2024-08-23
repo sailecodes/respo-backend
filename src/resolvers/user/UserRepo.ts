@@ -16,7 +16,6 @@ const userRepo = dataSource.getRepository(User).extend({
     return await this.findOneBy({ id: userId });
   },
 
-  // FIXME: Delete
   async addUser(addUserInput: AddUserInput) {
     const newUser = this.create(addUserInput);
     const newUserId = (await this.insert(newUser)).identifiers[0].id;

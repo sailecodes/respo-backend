@@ -10,14 +10,22 @@ import UpdateUserInput from "./inputs/UpdateUserInput";
  */
 @Resolver()
 export default class UserResolver {
-  // FIXME: Delete
+  /**
+   * Gets an array of every User
+   *
+   *  ---------------------------------------------
+   *  --- Purely for admin and testing purposes ---
+   *  ---------------------------------------------
+   *
+   * @returns An array of every User or an empty array
+   */
   @Query(() => [User])
   async getAllUsers() {
     return await userRepo.getAllUsers();
   }
 
   /**
-   * Gets a User based on an id
+   * Gets a User with the given id
    *
    * @param userIdArgs An object containing the User id
    * @returns The User that matches the id or null if no user exists with the id
@@ -27,7 +35,16 @@ export default class UserResolver {
     return await userRepo.getUser(userIdArgs);
   }
 
-  // FIXME: Delete
+  /**
+   * Adds a User with the given information
+   *
+   *  ---------------------------------------------
+   *  --- Purely for admin and testing purposes ---
+   *  ---------------------------------------------
+   *
+   * @param addUserInput The User information
+   * @returns A newly created User
+   */
   @Mutation(() => User)
   async addUser(@Arg("addUserInput") addUserInput: AddUserInput) {
     return (await userRepo.addUser(addUserInput))!;
@@ -48,7 +65,7 @@ export default class UserResolver {
   }
 
   /**
-   * Deletes a User based on an id
+   * Deletes a User with the given id
    *
    * [Authorizations]
    *  - Session id must match given id to prevent actions on other Users
