@@ -7,11 +7,7 @@ const artistRepo = dataSource.getRepository(Artist).extend({
     const newArtist = this.create(addArtistInput);
     const newArtistId = (await this.insert(newArtist)).identifiers[0].id;
 
-    const ret = await this.findOneBy({ id: newArtistId });
-
-    console.log(ret);
-
-    return ret;
+    return await this.findOneBy({ id: newArtistId });
   },
 });
 

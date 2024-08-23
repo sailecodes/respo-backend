@@ -10,7 +10,7 @@ export default class Artist {
   id: string;
 
   @Field()
-  @Column("varchar")
+  @Column("varchar", { unique: true })
   name: string;
 
   /**
@@ -23,7 +23,6 @@ export default class Artist {
    *  - Has a One to Many relation with the Song entity to indicate that an Artist can create
    *    many Songs and a Song can only belong to one Artist
    */
-  // An Artist can make many Songs, and a Song belongs to one Artist
   @Field(() => [Song], { nullable: true })
   @OneToMany(() => Song, (song) => song.artist, { nullable: true })
   songs?: Song[];
