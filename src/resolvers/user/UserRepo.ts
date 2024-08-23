@@ -4,6 +4,9 @@ import AddUserInput from "./inputs/AddUserInput";
 import UserIdArgs from "../utils/args/UserIdArgs";
 import UpdateUserInput from "./inputs/UpdateUserInput";
 
+/**
+ * See UserResolver.ts for method descriptions
+ */
 const userRepo = dataSource.getRepository(User).extend({
   async getAllUsers() {
     return await this.find();
@@ -13,6 +16,7 @@ const userRepo = dataSource.getRepository(User).extend({
     return await this.findOneBy({ id: userId });
   },
 
+  // FIXME: Delete
   async addUser(addUserInput: AddUserInput) {
     const newUser = this.create(addUserInput);
     const newUserId = (await this.insert(newUser)).identifiers[0].id;
@@ -35,6 +39,15 @@ const userRepo = dataSource.getRepository(User).extend({
 
     return true;
   },
+
+  // async saveSong() {
+  //   const songToSave = await songRepo.findOneBy({ id: songId });
+  //   const user = await this.findOneBy({ id: userId });
+
+  //   if (!songToSave || !user) return null;
+
+  //   user.savedSongs.push(songToSave);
+  // },
 });
 
 export default userRepo;

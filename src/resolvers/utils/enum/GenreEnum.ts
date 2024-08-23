@@ -1,3 +1,5 @@
+import { registerEnumType } from "type-graphql";
+
 enum GenreEnum {
   CHRISTIAN_AND_GOSPEL = "Christian & Gospel",
   CLASSICAL = "Classical",
@@ -8,5 +10,7 @@ enum GenreEnum {
   POP = "Pop",
   R_AND_B = "R&B",
 }
+
+registerEnumType(GenreEnum, { name: "Genre" });
 
 export default GenreEnum;

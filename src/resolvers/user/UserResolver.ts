@@ -10,11 +10,7 @@ import UpdateUserInput from "./inputs/UpdateUserInput";
  */
 @Resolver()
 export default class UserResolver {
-  /**
-   * Gets all Users
-   *
-   * @returns An array with all Users or an empty array
-   */
+  // FIXME: Delete
   @Query(() => [User])
   async getAllUsers() {
     return await userRepo.getAllUsers();
@@ -31,12 +27,7 @@ export default class UserResolver {
     return await userRepo.getUser(userIdArgs);
   }
 
-  /**
-   * Adds a User with the given information
-   *
-   * @param addUserInput An object containing the User information
-   * @returns The newly created User
-   */
+  // FIXME: Delete
   @Mutation(() => User)
   async addUser(@Arg("addUserInput") addUserInput: AddUserInput) {
     return (await userRepo.addUser(addUserInput))!;
@@ -44,6 +35,9 @@ export default class UserResolver {
 
   /**
    * Updates a User with the given information
+   *
+   * [Authorizations]
+   *  - Session id must match given id to prevent actions on other Users
    *
    * @param updateUserInput An object containing new User information
    * @returns The updated User or null if no user exists with the id
@@ -56,6 +50,9 @@ export default class UserResolver {
   /**
    * Deletes a User based on an id
    *
+   * [Authorizations]
+   *  - Session id must match given id to prevent actions on other Users
+   *
    * @param userIdArgs An object containing the User id
    * @returns True if a User with the id was deleted or false if no user exists with the id
    */
@@ -63,4 +60,22 @@ export default class UserResolver {
   async deleteUser(@Args() userIdArgs: UserIdArgs) {
     return await userRepo.deleteUser(userIdArgs);
   }
+
+  // @Mutation()
+  // async saveSong() {}
+
+  // @Mutation()
+  // async unsaveSong() {}
+
+  // @Mutation()
+  // async createPlaylist() {}
+
+  // @Mutation()
+  // async deletePlaylist() {}
+
+  // @Mutation()
+  // async addSongToPlaylist() {}
+
+  // @Mutation()
+  // async removeSongFromPlaylist() {}
 }

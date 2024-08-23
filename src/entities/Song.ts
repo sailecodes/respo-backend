@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Field, Int, ObjectType } from "type-graphql";
-import GenreEnum from "../ts-lib/enum/GenreEnum";
+import GenreEnum from "../resolvers/utils/enum/GenreEnum";
 import Artist from "./Artist";
 
 @ObjectType()
@@ -11,8 +11,8 @@ export default class Song {
   id: string;
 
   @Field()
-  @Column("varchar", { unique: true, default: "\\" })
-  imgUrl: string;
+  @Column("varchar", { unique: true, nullable: true })
+  imgUrl?: string;
 
   @Field()
   @Column("varchar", { unique: true })
