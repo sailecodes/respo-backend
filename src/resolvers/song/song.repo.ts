@@ -4,6 +4,8 @@ import { artistRepo } from "../artist/artist.repo";
 import { AddSongInput } from "./inputs/add-song.input";
 
 export const songRepo = dataSource.getRepository(SongEntity).extend({
+  async getSong() {},
+
   async addSong({ artistId, ...rest }: AddSongInput) {
     const songArtist = await artistRepo.findOneBy({ id: artistId });
 

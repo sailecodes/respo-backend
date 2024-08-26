@@ -2,7 +2,7 @@ import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import { userRepo } from "./user.repo";
 import { AddUserInput } from "./inputs/add-user.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
-import { UserIdArgs } from "../utils/args/user-id.args";
+import { IdArgs } from "../utils/args/user-id.args";
 import { UserEntity } from "../../entities/user.entity";
 
 /**
@@ -17,10 +17,10 @@ export class UserResolver {
    *  --- Purely for admin and testing purposes ---
    *  ---------------------------------------------
    *
-   * @returns An array of every User or an empty array
+   * @returns A promise of an array of every User or an empty array
    */
   @Query(() => [UserEntity])
-  async getAllUsers() {
+  async getAllUsers(): Promise<UserEntity[]> {
     return await userRepo.getAllUsers();
   }
 
@@ -28,11 +28,11 @@ export class UserResolver {
    * Gets a User with the given id
    *
    * @param userIdArgs An object containing the User id
-   * @returns The User that matches the id or null if no user exists with the id
+   * @returns A promise of a User that matches the id or null if no user exists with the id
    */
   @Query(() => UserEntity, { nullable: true })
-  async getUser(@Args() userIdArgs: UserIdArgs) {
-    return await userRepo.getUser(userIdArgs);
+  async getUser(@Args() idArgs: IdArgs): Promise<UserEntity | null> {
+    return await userRepo.getUser(idArgs);
   }
 
   /**
@@ -43,39 +43,42 @@ export class UserResolver {
    *  ---------------------------------------------
    *
    * @param addUserInput The User information
-   * @returns A newly created User
+   * @returns A promise of User with the given information
    */
   @Mutation(() => UserEntity)
-  async addUser(@Arg("addUserInput") addUserInput: AddUserInput) {
-    return (await userRepo.addUser(addUserInput))!;
+  async addUser(
+    @Arg("addUserInput") addUserInput: AddUserInput,
+  ): Promise<UserEntity> {
+    return await userRepo.addUser(addUserInput);
   }
 
   /**
    * Updates a User with the given information
    *
-   * [Authorizations]
-   *  - Session id must match given id to prevent actions on other Users
+   * [Authorized]
    *
    * @param updateUserInput An object containing new User information
-   * @returns The updated User or null if no user exists with the id
+   * @returns A promise of a User with updated information or null if no user exists with the id
    */
   @Mutation(() => UserEntity, { nullable: true })
-  async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput) {
+  async updateUser(
+    @Arg("updateUserInput") updateUserInput: UpdateUserInput,
+  ): Promise<UserEntity | null> {
     return await userRepo.updateUser(updateUserInput);
   }
 
   /**
    * Deletes a User with the given id
    *
-   * [Authorizations]
-   *  - Session id must match given id to prevent actions on other Users
+   * [Authorized]
    *
    * @param userIdArgs An object containing the User id
-   * @returns True if a User with the id was deleted or false if no user exists with the id
+   * @returns A promise of a Boolean true if a User with the given id was deleted or false if no user exists with
+   *          the id
    */
   @Mutation(() => Boolean)
-  async deleteUser(@Args() userIdArgs: UserIdArgs) {
-    return await userRepo.deleteUser(userIdArgs);
+  async deleteUser(@Args() idArgs: IdArgs): Promise<Boolean> {
+    return await userRepo.deleteUser(idArgs);
   }
 
   // @Mutation()

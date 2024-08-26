@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
 import { SongEntity } from "./song.entity";
 import { PlaylistEntity } from "./playlist.entity";
