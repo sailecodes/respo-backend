@@ -1,8 +1,11 @@
 import { dataSource } from "../../dataSource";
+import { PlaylistEntity } from "../../entities/playlist.entity";
 import { UserEntity } from "../../entities/user.entity";
+import { playlistRepo } from "../playlist/playlist.repo";
 import { songRepo } from "../song/song.repo";
 import { IdArgs } from "../utils/args/id.args";
 import { RelationFlagArgs } from "./args/relation-flag.args";
+import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { SaveSongInput } from "./inputs/save-song.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
@@ -86,5 +89,23 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     await this.save(user);
 
     return user.savedSongs.length !== originalLength;
+  },
+
+  async createPlaylist({ userId, name }: CreatePlaylistInput): Promise<PlaylistEntity | null> {
+    const playlistOwner = await this.findOne({
+      where: { id: userId },
+      relations: { playlists: true },
+    });
+
+    // TODO: Second conditional: should it be here or in a decorator?
+    if (!playlistOwner || playlistOwner.playlists.some((playlist) => playlist.name === name)) return null;
+
+    const newPlaylist = playlistRepo.create({ name, owner: playlistOwner });
+    const newPlaylistId = (await playlistRepo.insert(newPlaylist)).identifiers[0].id;
+
+    return (await playlistRepo.findOne({
+      where: { id: newPlaylistId },
+      relations: { owner: true, songs: true },
+    }))!;
   },
 });

@@ -6,6 +6,8 @@ import { UserEntity } from "../../entities/user.entity";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { SaveSongInput } from "./inputs/save-song.input";
 import { RelationFlagArgs } from "./args/relation-flag.args";
+import { PlaylistEntity } from "../../entities/playlist.entity";
+import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User entity
@@ -92,13 +94,32 @@ export class UserResolver {
     return await userRepo.saveSong(saveSongInput);
   }
 
+  /**
+   * Unsaves a Song with the given id
+   *
+   * @param saveSongInput An object containing the User and Song ids
+   * @returns A promise of a Boolean true if a Song with the given id was unsaved or false if the ids are nonexistent
+   */
   @Mutation(() => Boolean)
   async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
     return await userRepo.unsaveSong(saveSongInput);
   }
 
-  // @Mutation()
-  // async createPlaylist() {}
+  /***
+   * Creates a Playlist with the given name
+   *
+   * @remarks
+   * Returned PlaylistEntity includes the playlists relation for immediate frontend routing to the playlist page
+   *
+   * @params createPlaylistInput
+   * @returns A promise of a Playlist with the given name or null if no User exists with the given id
+   */
+  @Mutation(() => PlaylistEntity, { nullable: true })
+  async createPlaylist(
+    @Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput
+  ): Promise<PlaylistEntity | null> {
+    return await userRepo.createPlaylist(createPlaylistInput);
+  }
 
   // @Mutation()
   // async deletePlaylist() {}

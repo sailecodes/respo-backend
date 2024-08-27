@@ -11,7 +11,7 @@ export class PlaylistEntity {
   id: string;
 
   @Field()
-  @Column("varchar", { length: 50 })
+  @Column("varchar", { length: 35 })
   name: string;
 
   @Field(() => UserEntity)
