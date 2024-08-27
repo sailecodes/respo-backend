@@ -1,32 +1,38 @@
 import { dataSource } from "../../dataSource";
 import { UserEntity } from "../../entities/user.entity";
-import { IdArgs } from "../utils/args/user-id.args";
-import { AddUserInput } from "./inputs/add-user.input";
+import { songRepo } from "../song/song.repo";
+import { IdArgs } from "../utils/args/id.args";
+import { RelationFlagArgs } from "./args/relation-flag.args";
+import { RegisterUserInput } from "./inputs/register-user.input";
+import { SaveSongInput } from "./inputs/save-song.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
 
 /**
- * See UserResolver.ts for method descriptions
+ * See user.resolver.ts for method descriptions
  */
 export const userRepo = dataSource.getRepository(UserEntity).extend({
   async getAllUsers(): Promise<UserEntity[]> {
     return await this.find();
   },
 
-  async getUser({ id }: IdArgs): Promise<UserEntity | null> {
-    return await this.findOneBy({ id });
+  async getUser({ id }: IdArgs, { savedSongs, playlists }: RelationFlagArgs): Promise<UserEntity | null> {
+    return await this.findOne({
+      where: { id },
+      relations: {
+        savedSongs,
+        playlists,
+      },
+    });
   },
 
-  async addUser(addUserInput: AddUserInput): Promise<UserEntity> {
-    const newUser = this.create(addUserInput);
+  async registerUser(registerUserInput: RegisterUserInput): Promise<UserEntity> {
+    const newUser = this.create(registerUserInput);
     const newUserId = (await this.insert(newUser)).identifiers[0].id;
 
     return (await this.findOneBy({ id: newUserId }))!;
   },
 
-  async updateUser({
-    userId,
-    ...rest
-  }: UpdateUserInput): Promise<UserEntity | null> {
+  async updateUser({ userId, ...rest }: UpdateUserInput): Promise<UserEntity | null> {
     const isUpdateSuccessful = (await this.update(userId, rest)).affected;
 
     if (isUpdateSuccessful === 0) return null;
@@ -42,12 +48,17 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return true;
   },
 
-  // async saveSong() {
-  //   const songToSave = await songRepo.findOneBy({ id: songId });
-  //   const user = await this.findOneBy({ id: userId });
+  async saveSong({ userId, songId }: SaveSongInput): Promise<Boolean> {
+    const songToSave = await songRepo.findOneBy({ id: songId });
 
-  //   if (!songToSave || !user) return null;
+    if (!songToSave) return false;
 
-  //   user.savedSongs.push(songToSave);
-  // },
+    const user = await this.findOneBy({ id: userId });
+
+    if (!user) return false;
+
+    user.savedSongs.push(songToSave);
+
+    return true;
+  },
 });

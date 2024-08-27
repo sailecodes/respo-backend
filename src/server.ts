@@ -8,7 +8,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { buildSchema } from "type-graphql";
-import dataSource from "./dataSource";
+import { dataSource } from "./dataSource";
 import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
 
 const main = async () => {
@@ -23,7 +23,10 @@ const main = async () => {
   const port = process.env.PORT || 4001;
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({ resolvers: [UserResolver, SongResolver, ArtistResolver], validate: true }),
+    schema: await buildSchema({
+      resolvers: [UserResolver, SongResolver, ArtistResolver],
+      validate: true,
+    }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
@@ -33,11 +36,19 @@ const main = async () => {
   // Routes
   // ==============================================
 
-  app.use("/graphql", express.json(), cors(), expressMiddleware(apolloServer));
+  app.use(
+    "/graphql",
+    express.json(),
+    cors(),
+    expressMiddleware(apolloServer, {
+      context: async ({ req }) => ({ req }),
+    })
+  );
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.log(`[Server message] ${err}`);
   });
+
   // ==============================================
   // Server initialization
   // ==============================================

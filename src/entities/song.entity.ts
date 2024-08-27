@@ -4,7 +4,7 @@ import { ArtistEntity } from "./artist.entity";
 import GenreEnum from "../resolvers/utils/enum/genre.enum";
 
 @ObjectType()
-@Entity("Song")
+@Entity("song")
 export class SongEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")

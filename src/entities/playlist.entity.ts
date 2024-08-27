@@ -4,7 +4,7 @@ import { UserEntity } from "./user.entity";
 import { SongEntity } from "./song.entity";
 
 @ObjectType()
-@Entity("Playlist")
+@Entity("playlist")
 export class PlaylistEntity {
   @Field()
   @PrimaryGeneratedColumn("uuid")

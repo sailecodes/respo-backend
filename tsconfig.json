@@ -28,6 +28,10 @@
     "sourceMap": true,
     "skipLibCheck": true
   },
+  "typedocOptions": {
+    "entryPoints": ["src/server.ts"],
+    "out": "docs"
+  },
   "include": ["src"],
   "exclude": ["node_modules"]
 }

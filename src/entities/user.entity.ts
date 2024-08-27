@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  ManyToMany,
-  JoinTable,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
 import { SongEntity } from "./song.entity";
 import { PlaylistEntity } from "./playlist.entity";
@@ -14,7 +7,7 @@ import { PlaylistEntity } from "./playlist.entity";
  * Defines the GraphQL fields and PostgreSQL columns for the User entity
  */
 @ObjectType()
-@Entity("User")
+@Entity("user")
 export class UserEntity {
   /**
    * The ID (uuid) of a User

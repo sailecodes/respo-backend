@@ -1,12 +1,19 @@
 import { dataSource } from "../../dataSource";
 import { SongEntity } from "../../entities/song.entity";
 import { artistRepo } from "../artist/artist.repo";
+import { IdArgs } from "../utils/args/id.args";
 import { AddSongInput } from "./inputs/add-song.input";
 
+/**
+ * See song.resolver.ts for method descriptions
+ */
 export const songRepo = dataSource.getRepository(SongEntity).extend({
-  async getSong() {},
+  async getSong({ id }: IdArgs): Promise<SongEntity | null> {
+    return await this.findOneBy({ id });
+  },
 
-  async addSong({ artistId, ...rest }: AddSongInput) {
+  // FIXME: Error? if no artist was found?
+  async addSong({ artistId, ...rest }: AddSongInput): Promise<SongEntity | null> {
     const songArtist = await artistRepo.findOneBy({ id: artistId });
 
     if (!songArtist) return null;

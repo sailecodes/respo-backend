@@ -4,7 +4,7 @@ import { IsUserFieldUnique } from "../../utils/decorators/is-user-field-unique.d
 import { IS_EMAIL_UNIQUE_ERR_MESSAGE, IS_USERNAME_UNIQUE_ERR_MESSAGE } from "../../../constants";
 
 @InputType()
-export class AddUserInput {
+export class RegisterUserInput {
   @Field()
   @IsEmail()
   @IsUserFieldUnique("email", { message: IS_EMAIL_UNIQUE_ERR_MESSAGE })
