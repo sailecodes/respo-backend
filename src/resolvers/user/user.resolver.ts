@@ -15,10 +15,10 @@ export class UserResolver {
   /**
    * Gets an array of every User
    *
+   * @hidden
+   *
    * @privateRemarks
    * Restricted route authenticated by top-level role
-   *
-   * @hidden
    *
    * @returns A promise of an array of every User or an empty array
    */
@@ -29,6 +29,9 @@ export class UserResolver {
 
   /**
    * Gets a User with the given id
+   *
+   * @remark
+   * relationFlagArgs is a flag representation of which relations the User wants
    *
    * @param idArgs An object containing the User id
    * @returns A promise of a User that matches the id or null if no user exists with the id
@@ -78,6 +81,12 @@ export class UserResolver {
     return await userRepo.deleteUser(idArgs);
   }
 
+  /**
+   * Saves a Song with the given id
+   *
+   * @param saveSongInput An object containing the User and Song ids
+   * @returns A promise of a Boolean true if a Song with the given id was saved or false if the ids are nonexistent
+   */
   @Mutation(() => Boolean)
   async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
     return await userRepo.saveSong(saveSongInput);

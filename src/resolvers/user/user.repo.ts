@@ -58,7 +58,8 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
       relations: { savedSongs: true },
     });
 
-    if (!user) return false;
+    // TODO: Should I return an error with a more descriptive reason?
+    if (!user || user.savedSongs.some((savedSong) => savedSong.id === songToSave.id)) return false;
 
     user.savedSongs.push(songToSave);
 
