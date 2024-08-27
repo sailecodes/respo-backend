@@ -1,7 +1,7 @@
 import { ArgsType, Field } from "type-graphql";
 
 @ArgsType()
-export class RelationFlagArgs {
+export class UserRelationFlagArgs {
   @Field({ nullable: true })
   savedSongs?: boolean;
 

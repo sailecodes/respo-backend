@@ -4,7 +4,7 @@ import { UserEntity } from "../../entities/user.entity";
 import { playlistRepo } from "../playlist/playlist.repo";
 import { songRepo } from "../song/song.repo";
 import { IdArgs } from "../utils/args/id.args";
-import { RelationFlagArgs } from "./args/relation-flag.args";
+import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { SaveSongInput } from "./inputs/save-song.input";
@@ -14,11 +14,18 @@ import { UpdateUserInput } from "./inputs/update-user.input";
  * See user.resolver.ts for method descriptions
  */
 export const userRepo = dataSource.getRepository(UserEntity).extend({
+  async registerUser(registerUserInput: RegisterUserInput): Promise<UserEntity> {
+    const newUser = this.create(registerUserInput);
+    const newUserId = (await this.insert(newUser)).identifiers[0].id;
+
+    return (await this.findOneBy({ id: newUserId }))!;
+  },
+
   async getAllUsers(): Promise<UserEntity[]> {
     return await this.find();
   },
 
-  async getUser({ id }: IdArgs, { savedSongs, playlists }: RelationFlagArgs): Promise<UserEntity | null> {
+  async getUser({ id }: IdArgs, { savedSongs, playlists }: UserRelationFlagArgs): Promise<UserEntity | null> {
     return await this.findOne({
       where: { id },
       relations: {
@@ -26,13 +33,6 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
         playlists,
       },
     });
-  },
-
-  async registerUser(registerUserInput: RegisterUserInput): Promise<UserEntity> {
-    const newUser = this.create(registerUserInput);
-    const newUserId = (await this.insert(newUser)).identifiers[0].id;
-
-    return (await this.findOneBy({ id: newUserId }))!;
   },
 
   async updateUser({ userId, ...rest }: UpdateUserInput): Promise<UserEntity | null> {

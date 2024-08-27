@@ -11,6 +11,10 @@ import { buildSchema } from "type-graphql";
 import { dataSource } from "./dataSource";
 import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
 
+import RedisStore from "connect-redis";
+import { createClient } from "redis";
+import session from "express-session";
+
 const main = async () => {
   // ==============================================
   // Initialization
@@ -19,8 +23,13 @@ const main = async () => {
   dotenv.config();
 
   const app = express();
+
+  // TODO: On prod in an EC2 instance under a proxy
+  // app.set('trust proxy', 1);
+
   const httpServer = http.createServer(app);
   const port = process.env.PORT || 4001;
+  const redisClient = createClient().connect();
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -38,6 +47,21 @@ const main = async () => {
 
   app.use(
     "/graphql",
+    session({
+      store: new RedisStore({
+        client: redisClient,
+        prefix: "respo:",
+      }),
+      secret: process.env.SECRET as string,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1000 * 60 * 60 * 24,
+      },
+    }),
     express.json(),
     cors(),
     expressMiddleware(apolloServer, {
