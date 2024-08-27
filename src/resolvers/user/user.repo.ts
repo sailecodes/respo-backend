@@ -67,4 +67,24 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
 
     return true;
   },
+
+  async unsaveSong({ userId, songId }: SaveSongInput): Promise<Boolean> {
+    const songToSave = await songRepo.findOneBy({ id: songId });
+
+    if (!songToSave) return false;
+
+    const user = await this.findOne({
+      where: { id: userId },
+      relations: { savedSongs: true },
+    });
+
+    if (!user) return false;
+
+    const originalLength = user.savedSongs.length;
+    user.savedSongs = user.savedSongs.filter((savedSong) => savedSong.id !== songToSave.id);
+
+    await this.save(user);
+
+    return user.savedSongs.length !== originalLength;
+  },
 });

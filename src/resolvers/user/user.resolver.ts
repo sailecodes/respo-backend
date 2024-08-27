@@ -92,8 +92,10 @@ export class UserResolver {
     return await userRepo.saveSong(saveSongInput);
   }
 
-  // @Mutation()
-  // async unsaveSong() {}
+  @Mutation(() => Boolean)
+  async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
+    return await userRepo.unsaveSong(saveSongInput);
+  }
 
   // @Mutation()
   // async createPlaylist() {}
