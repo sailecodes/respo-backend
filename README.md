@@ -26,3 +26,8 @@ The source code for the application `Respo`, a Spotify-wannabe-clone.
 ## _Deployment_
 
 Deployed on `AWS`.
+
+## _Issues_
+
+- Problem: 'Cannot query across many-to-many for property subject typeorm...'
+  - Solution: Use `.save()` for relation updates

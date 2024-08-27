@@ -53,11 +53,16 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
 
     if (!songToSave) return false;
 
-    const user = await this.findOneBy({ id: userId });
+    const user = await this.findOne({
+      where: { id: userId },
+      relations: { savedSongs: true },
+    });
 
     if (!user) return false;
 
     user.savedSongs.push(songToSave);
+
+    await this.save(user);
 
     return true;
   },

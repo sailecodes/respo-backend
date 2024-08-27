@@ -80,7 +80,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
-    return await this.saveSong(saveSongInput);
+    return await userRepo.saveSong(saveSongInput);
   }
 
   // @Mutation()
