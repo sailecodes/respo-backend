@@ -31,3 +31,5 @@ Deployed on `AWS`.
 
 - Problem: 'Cannot query across many-to-many for property subject typeorm...'
   - Solution: Use `.save()` for relation updates
+- Problem: 'AggregateError...Error: connect ECONNREFUSED 127.0.0.1:6379'
+  - Solution: Must initialize Redis instance, i.e. `sudo systemctl start redis` on WSL
