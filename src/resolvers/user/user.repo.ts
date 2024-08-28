@@ -135,7 +135,7 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
 
     await this.save(user);
 
-    return user.savedSongs.length !== originalLength;
+    return originalLength !== user.savedSongs.length;
   },
 
   async createPlaylist({ name }: CreatePlaylistInput, { req }: IContext): Promise<PlaylistEntity> {
@@ -195,5 +195,29 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     await playlistRepo.save(playlist);
 
     return true;
+  },
+
+  async removeSongFromPlaylist({ songId, playlistId }: AddSongToPlaylistInput, { req }: IContext): Promise<boolean> {
+    const songToRemove = await songRepo.findOneBy({ id: songId });
+
+    if (!songToRemove) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
+
+    const playlist = await playlistRepo.findOne({
+      where: { id: playlistId },
+      relations: {
+        owner: true,
+        songs: true,
+      },
+    });
+
+    if (!playlist) throw new Error(PLAYLIST_NONEXISTENT_ERR_MESSAGE);
+    else if (playlist.owner.id !== req.session.uid) throw new Error(UNAUTHENTICATED_ERR_MESSAGE);
+
+    const originalLength = playlist.songs.length;
+    playlist.songs = playlist.songs.filter((song) => song.id !== songId);
+
+    await playlistRepo.save(playlist);
+
+    return originalLength !== playlist.songs.length;
   },
 });

@@ -191,7 +191,7 @@ export class UserResolver {
    *
    * @param addSongToPlaylistInput An object containing Song and Playlist ids
    * @param ctx An object containing the req field
-   * @returns A boolean true if a Song is added to a Playlist, where both match the given ids
+   * @returns A boolean true if a Song was added to a Playlist, where both match the given ids
    * @throws An Error if no Playlist or Song match the ids, a User is adding to a Playlist they did not create, or the
    *         Song has already been added to the Playlist
    */
@@ -203,6 +203,20 @@ export class UserResolver {
     return await userRepo.addSongToPlaylist(addSongToPlaylistInput, ctx);
   }
 
-  // @Mutation()
-  // async removeSongFromPlaylist() {}
+  /**
+   * Removes a Song from a Playlist
+   *
+   * @param addSongToPlaylistInput An object containing Song and Playlist ids
+   * @param ctx An object containing the req field
+   * @returns A boolean true if a Song was removed from a Playlist, where both match the given ids, or false if no Song
+   *          was removed
+   * @throws An Error if no Playlist or Song match the ids or a User is removing from a Playlist they did not create
+   */
+  @Mutation(() => Boolean)
+  async removeSongFromPlaylist(
+    @Arg("addSongToPlaylistInput") addSongToPlaylistInput: AddSongToPlaylistInput,
+    @Ctx() ctx: IContext
+  ): Promise<boolean> {
+    return await userRepo.removeSongFromPlaylist(addSongToPlaylistInput, ctx);
+  }
 }
