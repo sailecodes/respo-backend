@@ -23,6 +23,8 @@ The source code for the application `Respo`, a Spotify-wannabe-clone.
 - `TypeORM` allows the backend to connect to the `PostgreSQL` database on `AWS RDS`.
 - `AWS EC2` hosts the application.
 
+The backend has two separate validation layers: validation based on how fields should be in the database and validation against the database. As such, validation regarding the length of a string, the value of a number, or anything else similar, are accomplished at the decoration level. On the other hand, validation regarding the uniqueness or existence of a field in the database, or likewise, are done at the resolver level. This is to implement consistent validation across these layers.
+
 ## _Deployment_
 
 Deployed on `AWS`.

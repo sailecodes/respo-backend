@@ -12,26 +12,44 @@ import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { SaveSongInput } from "./inputs/save-song.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
+import {
+  EMAIL_NOT_UNIQUE_ERR_MESSAGE,
+  PASSWORD_INCORRECT_ERR_MESSAGE,
+  PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE,
+  SONG_NONEXISTENT_ERR_MESSAGE,
+  SONG_NOT_UNIQUE_ERR_MESSAGE,
+  USER_NONEXISTENT_ERR_MESSAGE,
+  USERNAME_NOT_UNIQUE_ERR_MESSAGE,
+} from "../../constants";
 
 /**
  * See user.resolver.ts for method descriptions
  */
 export const userRepo = dataSource.getRepository(UserEntity).extend({
-  async registerUser({ password, ...rest }: RegisterUserInput): Promise<UserEntity> {
+  async registerUser({ email, username, password }: RegisterUserInput): Promise<UserEntity> {
+    if (await this.existsBy({ email })) throw new Error(EMAIL_NOT_UNIQUE_ERR_MESSAGE);
+    else if (await this.existsBy({ username })) throw new Error(USERNAME_NOT_UNIQUE_ERR_MESSAGE);
+
     const hashedPassword = await hash(password, await genSalt(10));
 
-    const newUser = this.create({ password: hashedPassword, ...rest });
+    const newUser = this.create({
+      password: hashedPassword,
+      email,
+      username,
+    });
     const newUserId = (await this.insert(newUser)).identifiers[0].id;
 
     return (await this.findOneBy({ id: newUserId }))!;
   },
 
-  async loginUser({ username, password }: LoginUserArgs, { req }: IContext): Promise<UserEntity | null> {
+  async loginUser({ username, password }: LoginUserArgs, { req }: IContext): Promise<UserEntity> {
     const loggedUser = await this.findOneBy({ username });
 
-    if (!loggedUser || !(await compare(password, loggedUser.password))) return null;
+    if (!loggedUser) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+    else if (!(await compare(password, loggedUser.password))) throw new Error(PASSWORD_INCORRECT_ERR_MESSAGE);
 
     req.session.uid = loggedUser.id;
+    req.session.role = "user";
 
     return loggedUser;
   },
@@ -50,34 +68,35 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     });
   },
 
-  async updateUser({ userId, ...rest }: UpdateUserInput): Promise<UserEntity | null> {
+  async updateUser({ userId, ...rest }: UpdateUserInput): Promise<UserEntity> {
     const isUpdateSuccessful = (await this.update(userId, rest)).affected;
 
-    if (isUpdateSuccessful === 0) return null;
+    if (isUpdateSuccessful === 0) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
-    return await this.findOneBy({ id: userId });
+    return (await this.findOneBy({ id: userId }))!;
   },
 
-  async deleteUser({ id }: IdArgs): Promise<Boolean> {
+  async deleteUser({ id }: IdArgs): Promise<boolean> {
     const isDeleteSuccessful = (await this.delete(id)).affected;
 
-    if (isDeleteSuccessful === 0) return false;
+    if (isDeleteSuccessful === 0) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
     return true;
   },
 
-  async saveSong({ userId, songId }: SaveSongInput): Promise<Boolean> {
+  async saveSong({ userId, songId }: SaveSongInput): Promise<boolean> {
     const songToSave = await songRepo.findOneBy({ id: songId });
 
-    if (!songToSave) return false;
+    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
 
     const user = await this.findOne({
       where: { id: userId },
       relations: { savedSongs: true },
     });
 
-    // TODO: Should I return an error with a more descriptive reason?
-    if (!user || user.savedSongs.some((savedSong) => savedSong.id === songToSave.id)) return false;
+    if (!user) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+    else if (user.savedSongs.some((savedSong) => savedSong.id === songToSave.id))
+      throw new Error(SONG_NOT_UNIQUE_ERR_MESSAGE);
 
     user.savedSongs.push(songToSave);
 
@@ -86,17 +105,17 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return true;
   },
 
-  async unsaveSong({ userId, songId }: SaveSongInput): Promise<Boolean> {
+  async unsaveSong({ userId, songId }: SaveSongInput): Promise<boolean> {
     const songToSave = await songRepo.findOneBy({ id: songId });
 
-    if (!songToSave) return false;
+    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
 
     const user = await this.findOne({
       where: { id: userId },
       relations: { savedSongs: true },
     });
 
-    if (!user) return false;
+    if (!user) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
     const originalLength = user.savedSongs.length;
     user.savedSongs = user.savedSongs.filter((savedSong) => savedSong.id !== songToSave.id);
@@ -106,16 +125,20 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return user.savedSongs.length !== originalLength;
   },
 
-  async createPlaylist({ userId, name }: CreatePlaylistInput): Promise<PlaylistEntity | null> {
+  async createPlaylist({ userId, name }: CreatePlaylistInput): Promise<PlaylistEntity> {
     const playlistOwner = await this.findOne({
       where: { id: userId },
       relations: { playlists: true },
     });
 
-    // TODO: Second conditional: should it be here or in a decorator?
-    if (!playlistOwner || playlistOwner.playlists.some((playlist) => playlist.name === name)) return null;
+    if (!playlistOwner) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+    else if (playlistOwner.playlists.some((playlist) => playlist.name === name))
+      throw new Error(PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE);
 
-    const newPlaylist = playlistRepo.create({ name, owner: playlistOwner });
+    const newPlaylist = playlistRepo.create({
+      name,
+      owner: playlistOwner,
+    });
     const newPlaylistId = (await playlistRepo.insert(newPlaylist)).identifiers[0].id;
 
     return (await playlistRepo.findOne({

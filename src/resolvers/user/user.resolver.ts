@@ -12,15 +12,16 @@ import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
 
 /**
- * Defines the queries, mutations, and field resolvers for the User entity
+ * Defines the queries, mutations, and field resolvers of the User entity
  */
 @Resolver()
 export class UserResolver {
   /**
    * Registers a User
    *
-   * @param registerUserInput An object containing information about the User
+   * @param registerUserInput An object containing register information about a User
    * @returns A promise of a User with the given information
+   * @throws An Error if the email or username already exist
    */
   @Mutation(() => UserEntity)
   async registerUser(@Arg("registerUserInput") registerUserInput: RegisterUserInput): Promise<UserEntity> {
@@ -30,19 +31,14 @@ export class UserResolver {
   /**
    * Logs in a User
    *
-   * @param loginUserArgs An object containing login information about the User
+   * @param loginUserArgs An object containing login information about a User
    * @param ctx An object containing the req field
-   * @returns A promise of a User
+   * @returns A promise of a User matching the given information
+   * @throws An Error if no User matches the username or the password is incorrect
    */
-  @Query(() => UserEntity, { nullable: true })
-  async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity | null> {
+  @Query(() => UserEntity)
+  async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity> {
     return await userRepo.loginUser(loginUserArgs, ctx);
-  }
-
-  @Query(() => Boolean)
-  async test(@Ctx() ctx: IContext) {
-    if (!ctx.req.session.uid) return false;
-    return true;
   }
 
   /**
@@ -50,10 +46,10 @@ export class UserResolver {
    *
    * @hidden
    *
-   * @privateRemarks
-   * Restricted route authenticated by top-level role
+   * @remarks
+   * Role-restricted route, i.e. ADMIN
    *
-   * @returns A promise of an array of every User or an empty array
+   * @returns A promise of an array of every User or an empty array if there are no Users
    */
   @Query(() => [UserEntity])
   async getAllUsers(): Promise<UserEntity[]> {
@@ -66,8 +62,8 @@ export class UserResolver {
    * @remark
    * userRelationFlagArgs is a flag representation of which relations the User wants
    *
-   * @param idArgs An object containing the User id
-   * @returns A promise of a User that matches the id or null if no user exists with the id
+   * @param idArgs An object containing a User id
+   * @returns A promise of a User that matches the given id or null if no User matches the id
    */
   @Query(() => UserEntity, { nullable: true })
   async getUser(
@@ -81,13 +77,15 @@ export class UserResolver {
    * Updates a User
    *
    * @remarks
-   * Restricted route authenticated by session data
+   * Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
+   * ADMIN role
    *
-   * @param updateUserInput An object containing new information about the User
-   * @returns A promise of a User with updated information or null if no user exists with the id
+   * @param updateUserInput An object containing new information about a User
+   * @returns A promise of a User with the updated information
+   * @throws An Error if no User matches the given id
    */
-  @Mutation(() => UserEntity, { nullable: true })
-  async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput): Promise<UserEntity | null> {
+  @Mutation(() => UserEntity)
+  async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput): Promise<UserEntity> {
     return await userRepo.updateUser(updateUserInput);
   }
 
@@ -95,36 +93,39 @@ export class UserResolver {
    * Deletes a User
    *
    * @remarks
-   * Restricted route authenticated by session data
+   * Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
+   * ADMIN role
    *
-   * @param userIdArgs An object containing the User id
-   * @returns A promise of a Boolean true if a User with the given id was deleted or false if no user exists with
-   *          the id
+   * @param userIdArgs An object containing a User id
+   * @returns A promise of a boolean true if a User with the given id was deleted
+   * @throws An Error if no User matches the id
    */
   @Mutation(() => Boolean)
-  async deleteUser(@Args() idArgs: IdArgs): Promise<Boolean> {
+  async deleteUser(@Args() idArgs: IdArgs): Promise<boolean> {
     return await userRepo.deleteUser(idArgs);
   }
 
   /**
    * Saves a Song
    *
-   * @param saveSongInput An object containing the User and Song ids
-   * @returns A promise of a Boolean true if a Song with the given id was saved or false if the ids are nonexistent
+   * @param saveSongInput An object containing User and Song ids
+   * @returns A promise of a boolean true if a Song with the given id was saved
+   * @throws An Error if no Song or User match the ids or a Song has already been saved
    */
   @Mutation(() => Boolean)
-  async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
+  async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.saveSong(saveSongInput);
   }
 
   /**
    * Unsaves a Song
    *
-   * @param saveSongInput An object containing a User and Song id
-   * @returns A promise of a Boolean true if a Song with the given id was unsaved or false if the ids are nonexistent
+   * @param saveSongInput An object containing User and Song ids
+   * @returns A promise of a boolean true if a Song with the given id was unsaved
+   * @throws An Error if no Song or User match the ids
    */
   @Mutation(() => Boolean)
-  async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<Boolean> {
+  async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.unsaveSong(saveSongInput);
   }
 
@@ -135,13 +136,11 @@ export class UserResolver {
    * Returned PlaylistEntity includes the playlists relation for immediate frontend routing to the playlist page
    *
    * @params createPlaylistInput An object containing a User id and Playlist name
-   * @returns A promise of a Playlist with the given name or null if no User exists with the given id or name already
-   *          exists
+   * @returns A promise of a Playlist matching the given name
+   * @throws An Error if no User matches the id or the Playlist name is already used
    */
-  @Mutation(() => PlaylistEntity, { nullable: true })
-  async createPlaylist(
-    @Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput
-  ): Promise<PlaylistEntity | null> {
+  @Mutation(() => PlaylistEntity)
+  async createPlaylist(@Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput): Promise<PlaylistEntity> {
     return await userRepo.createPlaylist(createPlaylistInput);
   }
 
