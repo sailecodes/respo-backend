@@ -1,4 +1,4 @@
-import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { userRepo } from "./user.repo";
 import { UpdateUserInput } from "./inputs/update-user.input";
 import { IdArgs } from "../utils/args/id.args";
@@ -10,6 +10,7 @@ import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
+import { SameUserAuthMiddleware } from "../utils/middleware/same-user-auth.middleware";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User entity and related entities
@@ -82,14 +83,14 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
-   * - Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
-   *   ADMIN role
+   * - Session-restricted route
    *
    * @param updateUserInput An object containing new information about a User
    * @returns A promise of a User with the updated information
    * @throws An Error if no User matches the given id
    */
   @Authorized()
+  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => UserEntity)
   async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput): Promise<UserEntity> {
     return await userRepo.updateUser(updateUserInput);
@@ -100,14 +101,14 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
-   * - Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
-   *   ADMIN role
+   * - Session-restricted route
    *
    * @param userIdArgs An object containing a User id
    * @returns A promise of a boolean true if a User with the given id was deleted
    * @throws An Error if no User matches the id
    */
   @Authorized()
+  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
   async deleteUser(@Args() idArgs: IdArgs): Promise<boolean> {
     return await userRepo.deleteUser(idArgs);
@@ -124,6 +125,7 @@ export class UserResolver {
    * @throws An Error if no Song or User match the ids or a Song has already been saved
    */
   @Authorized()
+  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
   async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.saveSong(saveSongInput);
@@ -140,6 +142,7 @@ export class UserResolver {
    * @throws An Error if no Song or User match the ids
    */
   @Authorized()
+  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
   async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.unsaveSong(saveSongInput);
@@ -156,6 +159,7 @@ export class UserResolver {
    * @throws An Error if no User matches the id or the Playlist name is already used
    */
   @Authorized()
+  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => PlaylistEntity)
   async createPlaylist(@Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput): Promise<PlaylistEntity> {
     return await userRepo.createPlaylist(createPlaylistInput);
