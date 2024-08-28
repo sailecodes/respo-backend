@@ -186,6 +186,15 @@ export class UserResolver {
     return await userRepo.deletePlaylist(idArgs, ctx);
   }
 
+  /**
+   * Adds a Song to a Playlist
+   *
+   * @param addSongToPlaylistInput An object containing Song and Playlist ids
+   * @param ctx An object containing the req field
+   * @returns A boolean true if a Song is added to a Playlist, where both match the given ids
+   * @throws An Error if no Playlist or Song match the ids, a User is adding to a Playlist they did not create, or the
+   *         Song has already been added to the Playlist
+   */
   @Mutation(() => Boolean)
   async addSongToPlaylist(
     @Arg("addSongToPlaylistInput") addSongToPlaylistInput: AddSongToPlaylistInput,

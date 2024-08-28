@@ -174,10 +174,6 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
   },
 
   async addSongToPlaylist({ songId, playlistId }: AddSongToPlaylistInput, { req }: IContext): Promise<boolean> {
-    const playlistOwner = await this.findOneBy({ id: req.session.uid });
-
-    if (!playlistOwner) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
-
     const songToAdd = await songRepo.findOneBy({ id: songId });
 
     if (!songToAdd) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
