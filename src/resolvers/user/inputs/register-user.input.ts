@@ -16,6 +16,6 @@ export class RegisterUserInput {
   username: string;
 
   @Field()
-  @MinLength(1) // FIXME: Change min password length for prod
+  @MinLength(8)
   password: string;
 }

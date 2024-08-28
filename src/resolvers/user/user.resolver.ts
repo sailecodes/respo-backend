@@ -9,6 +9,7 @@ import { PlaylistEntity } from "../../entities/playlist.entity";
 import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
+import { LoginUserArgs } from "./args/login-user-args";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User entity
@@ -28,10 +29,20 @@ export class UserResolver {
 
   /**
    * Logs in a User
+   *
+   * @param loginUserArgs An object containing login information about the User
+   * @param ctx An object containing the req field
+   * @returns A promise of a User
    */
-  @Query(() => _)
-  async loginUser(@Ctx() ctx: IContext): _ {
-    return await userRepo.loginUser(ctx);
+  @Query(() => UserEntity, { nullable: true })
+  async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity | null> {
+    return await userRepo.loginUser(loginUserArgs, ctx);
+  }
+
+  @Query(() => Boolean)
+  async test(@Ctx() ctx: IContext) {
+    if (!ctx.req.session.uid) return false;
+    return true;
   }
 
   /**

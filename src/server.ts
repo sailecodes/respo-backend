@@ -29,7 +29,10 @@ const main = async () => {
 
   const httpServer = http.createServer(app);
   const port = process.env.PORT || 4001;
-  const redisClient = createClient().connect();
+
+  const redisClient = createClient();
+
+  redisClient.connect().catch((err) => console.log(`[Server Redis error] ${err}`));
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
@@ -42,35 +45,44 @@ const main = async () => {
   await apolloServer.start();
 
   // ==============================================
-  // Routes
+  // Middleware
   // ==============================================
 
   app.use(
-    "/graphql",
+    express.json(),
+    cors({
+      origin: ["http://localhost:4000"],
+      credentials: true,
+    }),
     session({
       store: new RedisStore({
         client: redisClient,
-        prefix: "respo:",
       }),
+      name: "sid",
       secret: process.env.SECRET as string,
       resave: false,
       saveUninitialized: false,
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        sameSite: "strict",
         maxAge: 1000 * 60 * 60 * 24,
       },
-    }),
-    express.json(),
-    cors(),
+    })
+  );
+
+  // ==============================================
+  // Routes
+  // ==============================================
+
+  app.use(
+    "/graphql",
     expressMiddleware(apolloServer, {
       context: async ({ req }) => ({ req }),
     })
   );
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.log(`[Server message] ${err}`);
+    console.log(`[Server middleware error] ${err}`);
   });
 
   // ==============================================
@@ -83,4 +95,4 @@ const main = async () => {
   });
 };
 
-main().catch((err) => console.log(`[Server message] Error: ${err}`));
+main().catch((err) => console.log(`[Server main error] ${err}`));

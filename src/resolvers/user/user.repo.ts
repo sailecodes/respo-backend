@@ -1,9 +1,12 @@
+import { compare, genSalt, hash } from "bcrypt";
 import { dataSource } from "../../dataSource";
 import { PlaylistEntity } from "../../entities/playlist.entity";
 import { UserEntity } from "../../entities/user.entity";
 import { playlistRepo } from "../playlist/playlist.repo";
 import { songRepo } from "../song/song.repo";
 import { IdArgs } from "../utils/args/id.args";
+import { IContext } from "../utils/interfaces/context.interface";
+import { LoginUserArgs } from "./args/login-user-args";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { RegisterUserInput } from "./inputs/register-user.input";
@@ -14,11 +17,23 @@ import { UpdateUserInput } from "./inputs/update-user.input";
  * See user.resolver.ts for method descriptions
  */
 export const userRepo = dataSource.getRepository(UserEntity).extend({
-  async registerUser(registerUserInput: RegisterUserInput): Promise<UserEntity> {
-    const newUser = this.create(registerUserInput);
+  async registerUser({ password, ...rest }: RegisterUserInput): Promise<UserEntity> {
+    const hashedPassword = await hash(password, await genSalt(10));
+
+    const newUser = this.create({ password: hashedPassword, ...rest });
     const newUserId = (await this.insert(newUser)).identifiers[0].id;
 
     return (await this.findOneBy({ id: newUserId }))!;
+  },
+
+  async loginUser({ username, password }: LoginUserArgs, { req }: IContext): Promise<UserEntity | null> {
+    const loggedUser = await this.findOneBy({ username });
+
+    if (!loggedUser || !(await compare(password, loggedUser.password))) return null;
+
+    req.session.uid = loggedUser.id;
+
+    return loggedUser;
   },
 
   async getAllUsers(): Promise<UserEntity[]> {

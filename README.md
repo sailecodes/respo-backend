@@ -33,6 +33,10 @@ Deployed on `AWS`.
 
 - Solution: Use `.save()` for relation updates
 
-'AggregateError...Error: connect ECONNREFUSED 127.0.0.1:6379'
+'AggregateError...Error: connect ECONNREFUSED 127.0.0.1:6379...'
 
 - Solution: Must initialize Redis instance, i.e. `sudo systemctl start redis` or `sudo service redis-server start` on WSL
+
+'TypeError: client.get/set is not a function...'
+
+- Solution: Must initialize redisClient as `const redisClient = createClient(); redisClient.connect().catch(console.error);` and not `const redisClient = createClient().connect()`
