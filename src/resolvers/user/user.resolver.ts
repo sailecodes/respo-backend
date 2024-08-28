@@ -53,7 +53,7 @@ export class UserResolver {
    *
    * @returns A promise of an array of every User or an empty array if there are no Users
    */
-  @Authorized()
+  @Authorized("admin")
   @Query(() => [UserEntity])
   async getAllUsers(): Promise<UserEntity[]> {
     return await userRepo.getAllUsers();
@@ -110,6 +110,7 @@ export class UserResolver {
   @Authorized()
   @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
+  // TODO: Remove session
   async deleteUser(@Args() idArgs: IdArgs): Promise<boolean> {
     return await userRepo.deleteUser(idArgs);
   }

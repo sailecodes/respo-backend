@@ -14,7 +14,7 @@ import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
 import session from "express-session";
-import { LoginAuthMiddleware } from "./resolvers/utils/middleware/login-auth.middleware";
+import { TopLevelAuthMiddleware } from "./resolvers/utils/middleware/top-level-auth.middleware";
 
 const main = async () => {
   // ==============================================
@@ -39,7 +39,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [UserResolver, SongResolver, ArtistResolver],
       validate: true,
-      authChecker: LoginAuthMiddleware,
+      authChecker: TopLevelAuthMiddleware,
     }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
