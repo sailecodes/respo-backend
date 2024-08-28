@@ -14,6 +14,7 @@ import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
 import RedisStore from "connect-redis";
 import { createClient } from "redis";
 import session from "express-session";
+import { LoginAuthMiddleware } from "./resolvers/utils/middleware/login-auth.middleware";
 
 const main = async () => {
   // ==============================================
@@ -24,7 +25,7 @@ const main = async () => {
 
   const app = express();
 
-  // TODO: On prod in an EC2 instance under a proxy
+  // TODO: Uncomment for prod in an EC2 instance under a proxy
   // app.set('trust proxy', 1);
 
   const httpServer = http.createServer(app);
@@ -38,6 +39,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [UserResolver, SongResolver, ArtistResolver],
       validate: true,
+      authChecker: LoginAuthMiddleware,
     }),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });

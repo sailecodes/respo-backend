@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTabl
 import { Field, ID, ObjectType } from "type-graphql";
 import { SongEntity } from "./song.entity";
 import { PlaylistEntity } from "./playlist.entity";
+import RoleEnum from "../resolvers/utils/enum/role.enum";
 
 /**
  * Defines the GraphQL fields and PostgreSQL columns for the User entity
@@ -17,6 +18,13 @@ export class UserEntity {
   id: string;
 
   /**
+   * The role of a User
+   */
+  @Field()
+  @Column("enum", { enum: RoleEnum, default: RoleEnum.USER })
+  role: RoleEnum;
+
+  /**
    * The email of a User
    */
   @Field()
@@ -26,7 +34,8 @@ export class UserEntity {
   /**
    * The flag indicating if a User has confirmed their email
    *
-   * Note: Users with unconfirmed emails cannot use Respo
+   * @remarks
+   * A User must confirm their email to use Respo
    */
   @Column({ default: false })
   hasConfirmedEmail: boolean;
@@ -40,8 +49,6 @@ export class UserEntity {
 
   /**
    * The password of a User
-   *
-   * Note: Passwords are safely hashed in the database
    */
   @Column()
   password: string;
@@ -49,8 +56,9 @@ export class UserEntity {
   /**
    * A list of saved Songs by the User
    *
-   * Note: Has a Many to Many relation with the Song entity to indicate that a User can save
-   *       many Songs and a Song can be saved by many Users
+   * @remarks
+   * Has a Many to Many relation with the Song entity to indicate that a User can save many Songs and a Song can be
+   * saved by many Users
    */
   @Field(() => [SongEntity])
   @ManyToMany(() => SongEntity)
@@ -60,8 +68,9 @@ export class UserEntity {
   /**
    * A list of created Playlists by the User
    *
-   * Note: Has a One to Many relation with the Playlist entity to indicate that a User can
-   *       create many Playlists and a Playlist only belongs to a single User
+   * @remarks
+   * Has a One to Many relation with the Playlist entity to indicate that a User can create many Playlists and a
+   * Playlist only belongs to a single User
    */
   @Field(() => [PlaylistEntity])
   @OneToMany(() => PlaylistEntity, (playlistEntity) => playlistEntity.owner)

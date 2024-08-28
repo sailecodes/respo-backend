@@ -1,4 +1,4 @@
-import { Arg, Args, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { userRepo } from "./user.repo";
 import { UpdateUserInput } from "./inputs/update-user.input";
 import { IdArgs } from "../utils/args/id.args";
@@ -12,7 +12,7 @@ import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
 
 /**
- * Defines the queries, mutations, and field resolvers of the User entity
+ * Defines the queries, mutations, and field resolvers for the User entity and related entities
  */
 @Resolver()
 export class UserResolver {
@@ -47,10 +47,12 @@ export class UserResolver {
    * @hidden
    *
    * @remarks
-   * Role-restricted route, i.e. ADMIN
+   * - Authorized route
+   * - Role-restricted route
    *
    * @returns A promise of an array of every User or an empty array if there are no Users
    */
+  @Authorized()
   @Query(() => [UserEntity])
   async getAllUsers(): Promise<UserEntity[]> {
     return await userRepo.getAllUsers();
@@ -59,12 +61,14 @@ export class UserResolver {
   /**
    * Gets a User
    *
-   * @remark
-   * userRelationFlagArgs is a flag representation of which relations the User wants
+   * @remarks
+   * - Authorized route
+   * - userRelationFlagArgs is a flag representation of which relations the User wants
    *
    * @param idArgs An object containing a User id
    * @returns A promise of a User that matches the given id or null if no User matches the id
    */
+  @Authorized()
   @Query(() => UserEntity, { nullable: true })
   async getUser(
     @Args() idArgs: IdArgs,
@@ -77,13 +81,15 @@ export class UserResolver {
    * Updates a User
    *
    * @remarks
-   * Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
-   * ADMIN role
+   * - Authorized route
+   * - Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
+   *   ADMIN role
    *
    * @param updateUserInput An object containing new information about a User
    * @returns A promise of a User with the updated information
    * @throws An Error if no User matches the given id
    */
+  @Authorized()
   @Mutation(() => UserEntity)
   async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput): Promise<UserEntity> {
     return await userRepo.updateUser(updateUserInput);
@@ -93,13 +99,15 @@ export class UserResolver {
    * Deletes a User
    *
    * @remarks
-   * Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
-   * ADMIN role
+   * - Authorized route
+   * - Session-restricted route, i.e. req.session.uid === updateUserInput.userId, with the exception of a User with an
+   *   ADMIN role
    *
    * @param userIdArgs An object containing a User id
    * @returns A promise of a boolean true if a User with the given id was deleted
    * @throws An Error if no User matches the id
    */
+  @Authorized()
   @Mutation(() => Boolean)
   async deleteUser(@Args() idArgs: IdArgs): Promise<boolean> {
     return await userRepo.deleteUser(idArgs);
@@ -108,10 +116,14 @@ export class UserResolver {
   /**
    * Saves a Song
    *
+   * @remarks
+   * - Authorized route
+   *
    * @param saveSongInput An object containing User and Song ids
    * @returns A promise of a boolean true if a Song with the given id was saved
    * @throws An Error if no Song or User match the ids or a Song has already been saved
    */
+  @Authorized()
   @Mutation(() => Boolean)
   async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.saveSong(saveSongInput);
@@ -120,10 +132,14 @@ export class UserResolver {
   /**
    * Unsaves a Song
    *
+   * @remarks
+   * - Authorized route
+   *
    * @param saveSongInput An object containing User and Song ids
    * @returns A promise of a boolean true if a Song with the given id was unsaved
    * @throws An Error if no Song or User match the ids
    */
+  @Authorized()
   @Mutation(() => Boolean)
   async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
     return await userRepo.unsaveSong(saveSongInput);
@@ -133,12 +149,13 @@ export class UserResolver {
    * Creates a Playlist
    *
    * @remarks
-   * Returned PlaylistEntity includes the playlists relation for immediate frontend routing to the playlist page
+   * - Authorized route
    *
    * @params createPlaylistInput An object containing a User id and Playlist name
    * @returns A promise of a Playlist matching the given name
    * @throws An Error if no User matches the id or the Playlist name is already used
    */
+  @Authorized()
   @Mutation(() => PlaylistEntity)
   async createPlaylist(@Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput): Promise<PlaylistEntity> {
     return await userRepo.createPlaylist(createPlaylistInput);
