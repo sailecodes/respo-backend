@@ -4,16 +4,15 @@ import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import http from "http";
 import cors from "cors";
+import session from "express-session";
+import RedisStore from "connect-redis";
+import { createClient } from "redis";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { buildSchema } from "type-graphql";
 import { dataSource } from "./dataSource";
-import { SongResolver, UserResolver, ArtistResolver } from "./resolvers/index";
-
-import RedisStore from "connect-redis";
-import { createClient } from "redis";
-import session from "express-session";
+import { ArtistResolver, PlaylistResolver, SongResolver, UserResolver } from "./resolvers/index";
 import { TopLevelAuthMiddleware } from "./resolvers/utils/middleware/top-level-auth.middleware";
 
 const main = async () => {
@@ -37,7 +36,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, SongResolver, ArtistResolver],
+      resolvers: [UserResolver, ArtistResolver, SongResolver, PlaylistResolver],
       validate: true,
       authChecker: TopLevelAuthMiddleware,
     }),

@@ -1,17 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { UserEntity } from "./user.entity";
 import { SongEntity } from "./song.entity";
 
 @ObjectType()
 @Entity("playlist")
 export class PlaylistEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Field()
-  @Column("varchar", { length: 35 })
+  @Column({ length: 20 })
   name: string;
 
   @Field(() => UserEntity)

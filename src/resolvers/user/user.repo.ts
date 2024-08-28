@@ -61,7 +61,8 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
       where: { id },
       relations: {
         savedSongs,
-        playlists: { songs: true },
+        playlists,
+        artistAccounts: true, // FIXME: Necessary?
       },
     });
   },

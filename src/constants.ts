@@ -6,6 +6,7 @@ export const EMAIL_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: Email is
 export const USERNAME_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: Username is already taken";
 export const SONG_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: Song is already saved";
 export const PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: Playlist name is already used";
+export const ARTIST_NAME_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: Artist name is already taken";
 
 export const SONG_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: Song does not exist";
 export const USER_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: User does not exist";

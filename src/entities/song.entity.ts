@@ -1,21 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Field, Int, ObjectType } from "type-graphql";
-import { ArtistEntity } from "./artist.entity";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import GenreEnum from "../resolvers/utils/enum/genre.enum";
+import { ArtistEntity } from "./artist.entity";
 
 @ObjectType()
 @Entity("song")
 export class SongEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Field()
-  @Column("varchar", { unique: true, nullable: true })
+  @Column("text", { unique: true, nullable: true })
   imgUrl?: string;
 
   @Field()
-  @Column("varchar", { unique: true })
+  @Column("text", { unique: true })
   audioUrl: string;
 
   @Field(() => ArtistEntity)
@@ -23,14 +23,14 @@ export class SongEntity {
   artist: ArtistEntity;
 
   @Field()
-  @Column("varchar", { length: 100 })
+  @Column("text")
   title: string;
 
-  @Field()
+  @Field(() => GenreEnum)
   @Column("enum", { enum: GenreEnum })
   genre: GenreEnum;
 
   @Field(() => Int)
-  @Column("int", { default: 0 })
+  @Column({ default: 0 })
   plays: number;
 }

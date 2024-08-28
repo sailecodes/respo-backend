@@ -1,31 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Field, Int, ObjectType } from "type-graphql";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import { SongEntity } from "./song.entity";
+import { UserEntity } from "./user.entity";
 
 @ObjectType()
 @Entity("artist")
 export class ArtistEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Field(() => UserEntity)
+  @ManyToOne(() => UserEntity, (userEntity) => userEntity.artistAccounts)
+  user: UserEntity;
+
   @Field()
-  @Column("varchar", { unique: true })
+  @Column("text", { unique: true })
   name: string;
-
-  // @Field()
-  // @Column({ unique: true })
-  // email: string;
-
-  // @Column({ default: false })
-  // hasConfirmedEmail: boolean;
-
-  // @Field()
-  // @Column({ unique: true, length: 20 })
-  // username: string;
-
-  // @Column()
-  // password: string;
 
   /**
    * The songs that an Artist has created or produced
@@ -39,9 +30,9 @@ export class ArtistEntity {
   songs: SongEntity[];
 
   @Field(() => Int)
-  @Column("int", { default: 0 })
+  @Column({ default: 0 })
   listens: number;
 
-  @Column("boolean", { default: false })
+  @Column({ default: false })
   isVerified: boolean;
 }
