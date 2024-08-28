@@ -9,6 +9,7 @@ export const PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: 
 
 export const SONG_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: Song does not exist";
 export const USER_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: User does not exist";
+export const PLAYLIST_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: Playlist does not exist";
 
 export const UNAUTHORIZED_ERR_MESSAGE = "[Server error] UNAUTHORIZED: Unauthorized access";
 export const UNAUTHORIZED_LOGIN_ERR_MESSAGE = UNAUTHORIZED_ERR_MESSAGE + ", login is required";

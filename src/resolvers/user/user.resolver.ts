@@ -136,6 +136,7 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
+   * - Same-user restricted route
    *
    * @param saveSongInput An object containing User and Song ids
    * @returns A promise of a boolean true if a Song with the given id was unsaved
@@ -152,6 +153,7 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
+   * - Same-user restricted route
    *
    * @params createPlaylistInput An object containing a User id and Playlist name
    * @returns A promise of a Playlist matching the given name
@@ -166,8 +168,22 @@ export class UserResolver {
     return await userRepo.createPlaylist(createPlaylistInput, ctx);
   }
 
-  // @Mutation()
-  // async deletePlaylist() {}
+  /**
+   * Deletes a Playlist
+   *
+   * @remarks
+   * - Authorized route
+   * - Same-user restricted route
+   *
+   * @param idArgs An object containing a Playlist id
+   * @returns A Promise of a boolean true if a Playlist with the given id was deleted
+   * @throws An Error if no Playlist or User match the ids or a User is accessing a Playlist they did not create
+   */
+  @Authorized()
+  @Mutation(() => Boolean)
+  async deletePlaylist(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.deletePlaylist(idArgs, ctx);
+  }
 
   // @Mutation()
   // async addSongToPlaylist() {}

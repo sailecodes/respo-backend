@@ -15,8 +15,10 @@ import {
   EMAIL_NOT_UNIQUE_ERR_MESSAGE,
   PASSWORD_INCORRECT_ERR_MESSAGE,
   PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE,
+  PLAYLIST_NONEXISTENT_ERR_MESSAGE,
   SONG_NONEXISTENT_ERR_MESSAGE,
   SONG_NOT_UNIQUE_ERR_MESSAGE,
+  UNAUTHENTICATED_ERR_MESSAGE,
   USER_NONEXISTENT_ERR_MESSAGE,
   USERNAME_NOT_UNIQUE_ERR_MESSAGE,
 } from "../../constants";
@@ -95,16 +97,16 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
   },
 
   async saveSong({ id }: IdArgs, { req }: IContext): Promise<boolean> {
-    const songToSave = await songRepo.findOneBy({ id });
-
-    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
-
     const user = await this.findOne({
       where: { id: req.session.uid },
       relations: { savedSongs: true },
     });
 
     if (!user) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+
+    const songToSave = await songRepo.findOneBy({ id });
+
+    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
     else if (user.savedSongs.some((savedSong) => savedSong.id === songToSave.id))
       throw new Error(SONG_NOT_UNIQUE_ERR_MESSAGE);
 
@@ -116,16 +118,16 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
   },
 
   async unsaveSong({ id }: IdArgs, { req }: IContext): Promise<boolean> {
-    const songToSave = await songRepo.findOneBy({ id });
-
-    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
-
     const user = await this.findOne({
       where: { id: req.session.uid },
       relations: { savedSongs: true },
     });
 
     if (!user) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+
+    const songToSave = await songRepo.findOneBy({ id });
+
+    if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
 
     const originalLength = user.savedSongs.length;
     user.savedSongs = user.savedSongs.filter((savedSong) => savedSong.id !== songToSave.id);
@@ -155,5 +157,18 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
       where: { id: newPlaylistId },
       relations: { owner: true, songs: true },
     }))!;
+  },
+
+  async deletePlaylist({ id }: IdArgs, { req }: IContext): Promise<boolean> {
+    const playlistOwner = await this.findOneBy({ id: req.session.uid });
+
+    if (!playlistOwner) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+
+    const playlistToDelete = await playlistRepo.findOneBy({ id });
+
+    if (!playlistToDelete) throw new Error(PLAYLIST_NONEXISTENT_ERR_MESSAGE);
+    else if (playlistToDelete.owner.id !== req.session.uid) throw new Error(UNAUTHENTICATED_ERR_MESSAGE);
+
+    return (await playlistRepo.delete(id)).affected === 1;
   },
 });
