@@ -1,11 +1,12 @@
-import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { AddSongInput } from "./inputs/add-song.input";
 import { songRepo } from "./song.repo";
 import { SongEntity } from "../../entities/song.entity";
 import { IdArgs } from "../utils/args/id.args";
+import { IContext } from "../utils/interfaces/context.interface";
 
 /**
- * Defines the queries, mutations, and field resolvers for the Song entity
+ * Defines the queries, mutations, and field resolvers of the Song entity
  */
 @Resolver()
 export class SongResolver {
@@ -32,5 +33,41 @@ export class SongResolver {
   @Mutation(() => SongEntity, { nullable: true })
   async addSong(@Arg("addSongInput") addSongInput: AddSongInput): Promise<SongEntity | null> {
     return await songRepo.addSong(addSongInput);
+  }
+
+  //////////////////////////////////
+
+  /**
+   * Saves a Song under a User
+   *
+   * @remarks
+   * - Authorized route
+   * - Same-user restricted route
+   *
+   * @param saveSongInput An object containing User and Song ids
+   * @returns A promise of a boolean true if a Song with the given id was saved
+   * @throws An Error if no Song or User match the ids or a Song has already been saved
+   */
+  @Authorized()
+  @Mutation(() => Boolean)
+  async saveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await songRepo.saveSong(idArgs, ctx);
+  }
+
+  /**
+   * Unsaves a Song under a User
+   *
+   * @remarks
+   * - Authorized route
+   * - Same-user restricted route
+   *
+   * @param saveSongInput An object containing User and Song ids
+   * @returns A promise of a boolean true if a Song with the given id was unsaved
+   * @throws An Error if no Song or User match the ids
+   */
+  @Authorized()
+  @Mutation(() => Boolean)
+  async unsaveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await songRepo.unsaveSong(idArgs, ctx);
   }
 }

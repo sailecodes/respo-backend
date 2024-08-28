@@ -4,15 +4,12 @@ import { UpdateUserInput } from "./inputs/update-user.input";
 import { IdArgs } from "../utils/args/id.args";
 import { UserEntity } from "../../entities/user.entity";
 import { RegisterUserInput } from "./inputs/register-user.input";
-import { PlaylistEntity } from "../../entities/playlist.entity";
-import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
-import { AddSongToPlaylistInput } from "./inputs/add-song-to-playlist.input";
 
 /**
- * Defines the queries, mutations, and field resolvers for the User entity and related entities
+ * Defines the queries, mutations, and field resolvers of the User and related entities
  */
 @Resolver()
 export class UserResolver {
@@ -124,110 +121,5 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async deleteUser(@Ctx() ctx: IContext): Promise<boolean> {
     return await userRepo.deleteUser(ctx);
-  }
-
-  /**
-   * Saves a Song
-   *
-   * @remarks
-   * - Authorized route
-   * - Same-user restricted route
-   *
-   * @param saveSongInput An object containing User and Song ids
-   * @returns A promise of a boolean true if a Song with the given id was saved
-   * @throws An Error if no Song or User match the ids or a Song has already been saved
-   */
-  @Authorized()
-  @Mutation(() => Boolean)
-  async saveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
-    return await userRepo.saveSong(idArgs, ctx);
-  }
-
-  /**
-   * Unsaves a Song
-   *
-   * @remarks
-   * - Authorized route
-   * - Same-user restricted route
-   *
-   * @param saveSongInput An object containing User and Song ids
-   * @returns A promise of a boolean true if a Song with the given id was unsaved
-   * @throws An Error if no Song or User match the ids
-   */
-  @Authorized()
-  @Mutation(() => Boolean)
-  async unsaveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
-    return await userRepo.unsaveSong(idArgs, ctx);
-  }
-
-  /***
-   * Creates a Playlist
-   *
-   * @remarks
-   * - Authorized route
-   * - Same-user restricted route
-   *
-   * @params createPlaylistInput An object containing a User id and Playlist name
-   * @returns A promise of a Playlist matching the given name
-   * @throws An Error if no User matches the id or the Playlist name is already used
-   */
-  @Authorized()
-  @Mutation(() => PlaylistEntity)
-  async createPlaylist(
-    @Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput,
-    @Ctx() ctx: IContext
-  ): Promise<PlaylistEntity> {
-    return await userRepo.createPlaylist(createPlaylistInput, ctx);
-  }
-
-  /**
-   * Deletes a Playlist
-   *
-   * @remarks
-   * - Authorized route
-   * - Same-user restricted route
-   *
-   * @param idArgs An object containing a Playlist id
-   * @returns A Promise of a boolean true if a Playlist with the given id was deleted
-   * @throws An Error if no Playlist or User match the ids or a User is accessing a Playlist they did not create
-   */
-  @Authorized()
-  @Mutation(() => Boolean)
-  async deletePlaylist(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
-    return await userRepo.deletePlaylist(idArgs, ctx);
-  }
-
-  /**
-   * Adds a Song to a Playlist
-   *
-   * @param addSongToPlaylistInput An object containing Song and Playlist ids
-   * @param ctx An object containing the req and res fields
-   * @returns A boolean true if a Song was added to a Playlist, where both match the given ids
-   * @throws An Error if no Playlist or Song match the ids, a User is adding to a Playlist they did not create, or the
-   *         Song has already been added to the Playlist
-   */
-  @Mutation(() => Boolean)
-  async addSongToPlaylist(
-    @Arg("addSongToPlaylistInput") addSongToPlaylistInput: AddSongToPlaylistInput,
-    @Ctx() ctx: IContext
-  ): Promise<boolean> {
-    return await userRepo.addSongToPlaylist(addSongToPlaylistInput, ctx);
-  }
-
-  /**
-   * Removes a Song from a Playlist
-   *
-   * @param addSongToPlaylistInput An object containing Song and Playlist ids
-   * @param ctx An object containing the req and res fields
-   * @returns A boolean true if a Song was removed from a Playlist, where both match the given ids, or false if no Song
-   *          was removed
-   * @throws An Error if no Playlist or Song match the ids or a User is removing from a Playlist they did not create
-   */
-  @Mutation(() => Boolean)
-  async removeSongFromPlaylist(
-    @Arg("addSongToPlaylistInput") addSongToPlaylistInput: AddSongToPlaylistInput,
-    @Ctx() ctx: IContext
-  ): Promise<boolean> {
-    return await userRepo.removeSongFromPlaylist(addSongToPlaylistInput, ctx);
   }
 }
