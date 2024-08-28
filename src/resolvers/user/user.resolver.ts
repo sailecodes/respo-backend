@@ -9,6 +9,7 @@ import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
+import { AddSongToPlaylistInput } from "./inputs/add-song-to-playlist.input";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User entity and related entities
@@ -185,8 +186,13 @@ export class UserResolver {
     return await userRepo.deletePlaylist(idArgs, ctx);
   }
 
-  // @Mutation()
-  // async addSongToPlaylist() {}
+  @Mutation(() => Boolean)
+  async addSongToPlaylist(
+    @Arg("addSongToPlaylistInput") addSongToPlaylistInput: AddSongToPlaylistInput,
+    @Ctx() ctx: IContext
+  ): Promise<boolean> {
+    return await userRepo.addSongToPlaylist(addSongToPlaylistInput, ctx);
+  }
 
   // @Mutation()
   // async removeSongFromPlaylist() {}

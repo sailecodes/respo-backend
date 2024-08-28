@@ -22,6 +22,7 @@ import {
   USER_NONEXISTENT_ERR_MESSAGE,
   USERNAME_NOT_UNIQUE_ERR_MESSAGE,
 } from "../../constants";
+import { AddSongToPlaylistInput } from "./inputs/add-song-to-playlist.input";
 
 /**
  * See user.resolver.ts for method descriptions
@@ -64,7 +65,7 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
       where: { id },
       relations: {
         savedSongs,
-        playlists,
+        playlists: { songs: true },
       },
     });
   },
@@ -170,5 +171,33 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     else if (playlistToDelete.owner.id !== req.session.uid) throw new Error(UNAUTHENTICATED_ERR_MESSAGE);
 
     return (await playlistRepo.delete(id)).affected === 1;
+  },
+
+  async addSongToPlaylist({ songId, playlistId }: AddSongToPlaylistInput, { req }: IContext): Promise<boolean> {
+    const playlistOwner = await this.findOneBy({ id: req.session.uid });
+
+    if (!playlistOwner) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
+
+    const songToAdd = await songRepo.findOneBy({ id: songId });
+
+    if (!songToAdd) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
+
+    const playlist = await playlistRepo.findOne({
+      where: { id: playlistId },
+      relations: {
+        owner: true,
+        songs: true,
+      },
+    });
+
+    if (!playlist) throw new Error(PLAYLIST_NONEXISTENT_ERR_MESSAGE);
+    else if (playlist.owner.id !== req.session.uid) throw new Error(UNAUTHENTICATED_ERR_MESSAGE);
+    else if (playlist.songs.some((song) => song.id === songToAdd.id)) throw new Error(SONG_NOT_UNIQUE_ERR_MESSAGE);
+
+    playlist.songs.push(songToAdd);
+
+    await playlistRepo.save(playlist);
+
+    return true;
   },
 });
