@@ -60,6 +60,12 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return await this.find();
   },
 
+  async logoutUser({ res }: IContext): Promise<boolean> {
+    res.clearCookie(process.env.COOKIE_NAME!);
+
+    return true;
+  },
+
   async getUser({ id }: IdArgs, { savedSongs, playlists }: UserRelationFlagArgs): Promise<UserEntity | null> {
     return await this.findOne({
       where: { id },

@@ -32,13 +32,24 @@ export class UserResolver {
    * Logs in a User
    *
    * @param loginUserArgs An object containing login information about a User
-   * @param ctx An object containing the req field
+   * @param ctx An object containing the req and res fields
    * @returns A promise of a User matching the given information
    * @throws An Error if no User matches the username or the password is incorrect
    */
   @Query(() => UserEntity)
   async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity> {
     return await userRepo.loginUser(loginUserArgs, ctx);
+  }
+
+  /**
+   * Logs out a User
+   *
+   * @param ctx An object containing the req and res fields
+   * @returns A Promise of a boolean true upon logging out
+   */
+  @Query(() => Boolean)
+  async logoutUser(@Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.logoutUser(ctx);
   }
 
   /**
@@ -190,7 +201,7 @@ export class UserResolver {
    * Adds a Song to a Playlist
    *
    * @param addSongToPlaylistInput An object containing Song and Playlist ids
-   * @param ctx An object containing the req field
+   * @param ctx An object containing the req and res fields
    * @returns A boolean true if a Song was added to a Playlist, where both match the given ids
    * @throws An Error if no Playlist or Song match the ids, a User is adding to a Playlist they did not create, or the
    *         Song has already been added to the Playlist
@@ -207,7 +218,7 @@ export class UserResolver {
    * Removes a Song from a Playlist
    *
    * @param addSongToPlaylistInput An object containing Song and Playlist ids
-   * @param ctx An object containing the req field
+   * @param ctx An object containing the req and res fields
    * @returns A boolean true if a Song was removed from a Playlist, where both match the given ids, or false if no Song
    *          was removed
    * @throws An Error if no Playlist or Song match the ids or a User is removing from a Playlist they did not create
