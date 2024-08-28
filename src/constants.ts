@@ -10,7 +10,7 @@ export const PLAYLIST_NAME_NOT_UNIQUE_ERR_MESSAGE = "[Server error] NOT UNIQUE: 
 export const SONG_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: Song does not exist";
 export const USER_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: User does not exist";
 
-export const UNAUTHORIZED_ACCESS_ERR_MESSAGE = "[Server error] UNAUTHORIZED: Unauthorized access";
-export const UNAUTHORIZED_ACCESS_LOGIN_ERR_MESSAGE = UNAUTHORIZED_ACCESS_ERR_MESSAGE + ", login is required";
-export const UNAUTHORIZED_ACCESS_ROLE_ERR_MESSAGE = UNAUTHORIZED_ACCESS_ERR_MESSAGE + ", higher roles are required";
-export const UNAUTHENTICATED_ACCESS_ERR_MESSAGE = "[Server error] UNAUTHENTICATED: Not allowed to perform this action";
+export const UNAUTHORIZED_ERR_MESSAGE = "[Server error] UNAUTHORIZED: Unauthorized access";
+export const UNAUTHORIZED_LOGIN_ERR_MESSAGE = UNAUTHORIZED_ERR_MESSAGE + ", login is required";
+export const UNAUTHORIZED_ROLE_ERR_MESSAGE = UNAUTHORIZED_ERR_MESSAGE + ", higher roles are required";
+export const UNAUTHENTICATED_ERR_MESSAGE = "[Server error] UNAUTHENTICATED: Not allowed to perform this action";

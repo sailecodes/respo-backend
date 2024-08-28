@@ -1,16 +1,14 @@
-import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Args, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { userRepo } from "./user.repo";
 import { UpdateUserInput } from "./inputs/update-user.input";
 import { IdArgs } from "../utils/args/id.args";
 import { UserEntity } from "../../entities/user.entity";
 import { RegisterUserInput } from "./inputs/register-user.input";
-import { SaveSongInput } from "./inputs/save-song.input";
 import { PlaylistEntity } from "../../entities/playlist.entity";
 import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
 import { LoginUserArgs } from "./args/login-user-args";
-import { SameUserAuthMiddleware } from "../utils/middleware/same-user-auth.middleware";
 
 /**
  * Defines the queries, mutations, and field resolvers for the User entity and related entities
@@ -83,17 +81,19 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
-   * - Session-restricted route
+   * - Same-user restricted route
    *
    * @param updateUserInput An object containing new information about a User
    * @returns A promise of a User with the updated information
    * @throws An Error if no User matches the given id
    */
   @Authorized()
-  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => UserEntity)
-  async updateUser(@Arg("updateUserInput") updateUserInput: UpdateUserInput): Promise<UserEntity> {
-    return await userRepo.updateUser(updateUserInput);
+  async updateUser(
+    @Arg("updateUserInput") updateUserInput: UpdateUserInput,
+    @Ctx() ctx: IContext
+  ): Promise<UserEntity> {
+    return await userRepo.updateUser(updateUserInput, ctx);
   }
 
   /**
@@ -101,7 +101,7 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
-   * - Session-restricted route
+   * - Same-user restricted route
    *
    * @param userIdArgs An object containing a User id
    * @returns A promise of a boolean true if a User with the given id was deleted or boolean false if an error occurred
@@ -109,10 +109,9 @@ export class UserResolver {
    * @throws An Error if no User matches the id
    */
   @Authorized()
-  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
-  async deleteUser(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
-    return await userRepo.deleteUser(idArgs, ctx);
+  async deleteUser(@Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.deleteUser(ctx);
   }
 
   /**
@@ -120,16 +119,16 @@ export class UserResolver {
    *
    * @remarks
    * - Authorized route
+   * - Same-user restricted route
    *
    * @param saveSongInput An object containing User and Song ids
    * @returns A promise of a boolean true if a Song with the given id was saved
    * @throws An Error if no Song or User match the ids or a Song has already been saved
    */
   @Authorized()
-  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
-  async saveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
-    return await userRepo.saveSong(saveSongInput);
+  async saveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.saveSong(idArgs, ctx);
   }
 
   /**
@@ -143,10 +142,9 @@ export class UserResolver {
    * @throws An Error if no Song or User match the ids
    */
   @Authorized()
-  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
-  async unsaveSong(@Arg("saveSongInput") saveSongInput: SaveSongInput): Promise<boolean> {
-    return await userRepo.unsaveSong(saveSongInput);
+  async unsaveSong(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.unsaveSong(idArgs, ctx);
   }
 
   /***
@@ -160,10 +158,12 @@ export class UserResolver {
    * @throws An Error if no User matches the id or the Playlist name is already used
    */
   @Authorized()
-  @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => PlaylistEntity)
-  async createPlaylist(@Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput): Promise<PlaylistEntity> {
-    return await userRepo.createPlaylist(createPlaylistInput);
+  async createPlaylist(
+    @Arg("createPlaylistInput") createPlaylistInput: CreatePlaylistInput,
+    @Ctx() ctx: IContext
+  ): Promise<PlaylistEntity> {
+    return await userRepo.createPlaylist(createPlaylistInput, ctx);
   }
 
   // @Mutation()

@@ -10,7 +10,6 @@ import { LoginUserArgs } from "./args/login-user-args";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { CreatePlaylistInput } from "./inputs/create-playlist.input";
 import { RegisterUserInput } from "./inputs/register-user.input";
-import { SaveSongInput } from "./inputs/save-song.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
 import {
   EMAIL_NOT_UNIQUE_ERR_MESSAGE,
@@ -68,16 +67,16 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     });
   },
 
-  async updateUser({ userId, ...rest }: UpdateUserInput): Promise<UserEntity> {
-    const isUpdateSuccessful = (await this.update(userId, rest)).affected;
+  async updateUser(updateUserInput: UpdateUserInput, { req }: IContext): Promise<UserEntity> {
+    const isUpdateSuccessful = (await this.update(req.session.uid!, updateUserInput)).affected;
 
     if (isUpdateSuccessful === 0) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
-    return (await this.findOneBy({ id: userId }))!;
+    return (await this.findOneBy({ id: req.session.uid }))!;
   },
 
-  async deleteUser({ id }: IdArgs, { req, res }: IContext): Promise<boolean> {
-    const isDeleteSuccessful = (await this.delete(id)).affected;
+  async deleteUser({ req, res }: IContext): Promise<boolean> {
+    const isDeleteSuccessful = (await this.delete(req.session.uid!)).affected;
 
     if (isDeleteSuccessful === 0) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
@@ -95,13 +94,13 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     });
   },
 
-  async saveSong({ userId, songId }: SaveSongInput): Promise<boolean> {
-    const songToSave = await songRepo.findOneBy({ id: songId });
+  async saveSong({ id }: IdArgs, { req }: IContext): Promise<boolean> {
+    const songToSave = await songRepo.findOneBy({ id });
 
     if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
 
     const user = await this.findOne({
-      where: { id: userId },
+      where: { id: req.session.uid },
       relations: { savedSongs: true },
     });
 
@@ -116,13 +115,13 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return true;
   },
 
-  async unsaveSong({ userId, songId }: SaveSongInput): Promise<boolean> {
-    const songToSave = await songRepo.findOneBy({ id: songId });
+  async unsaveSong({ id }: IdArgs, { req }: IContext): Promise<boolean> {
+    const songToSave = await songRepo.findOneBy({ id });
 
     if (!songToSave) throw new Error(SONG_NONEXISTENT_ERR_MESSAGE);
 
     const user = await this.findOne({
-      where: { id: userId },
+      where: { id: req.session.uid },
       relations: { savedSongs: true },
     });
 
@@ -136,9 +135,9 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return user.savedSongs.length !== originalLength;
   },
 
-  async createPlaylist({ userId, name }: CreatePlaylistInput): Promise<PlaylistEntity> {
+  async createPlaylist({ name }: CreatePlaylistInput, { req }: IContext): Promise<PlaylistEntity> {
     const playlistOwner = await this.findOne({
-      where: { id: userId },
+      where: { id: req.session.uid },
       relations: { playlists: true },
     });
 

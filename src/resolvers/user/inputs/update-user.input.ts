@@ -1,12 +1,8 @@
-import { IsEmail, IsUUID, Length, MinLength } from "class-validator";
-import { Field, ID, InputType } from "type-graphql";
+import { IsEmail, Length, MinLength } from "class-validator";
+import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class UpdateUserInput {
-  @Field(() => ID)
-  @IsUUID()
-  userId: string;
-
   @Field({ nullable: true })
   @IsEmail()
   email?: string;
