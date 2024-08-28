@@ -11,4 +11,6 @@ export const SONG_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: Song do
 export const USER_NONEXISTENT_ERR_MESSAGE = "[Server error] NONEXISTENT: User does not exist";
 
 export const UNAUTHORIZED_ACCESS_ERR_MESSAGE = "[Server error] UNAUTHORIZED: Unauthorized access";
-export const UNAUTHENTICATED_ACCESS_ERR_MESSAGE = "[Server error] UNAUTHENTICATED: Unauthenticated access";
+export const UNAUTHORIZED_ACCESS_LOGIN_ERR_MESSAGE = UNAUTHORIZED_ACCESS_ERR_MESSAGE + ", login is required";
+export const UNAUTHORIZED_ACCESS_ROLE_ERR_MESSAGE = UNAUTHORIZED_ACCESS_ERR_MESSAGE + ", higher roles are required";
+export const UNAUTHENTICATED_ACCESS_ERR_MESSAGE = "[Server error] UNAUTHENTICATED: Not allowed to perform this action";

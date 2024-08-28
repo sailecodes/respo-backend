@@ -104,15 +104,15 @@ export class UserResolver {
    * - Session-restricted route
    *
    * @param userIdArgs An object containing a User id
-   * @returns A promise of a boolean true if a User with the given id was deleted
+   * @returns A promise of a boolean true if a User with the given id was deleted or boolean false if an error occurred
+   *          during the process of clearing the session cookie
    * @throws An Error if no User matches the id
    */
   @Authorized()
   @UseMiddleware(SameUserAuthMiddleware)
   @Mutation(() => Boolean)
-  // TODO: Remove session
-  async deleteUser(@Args() idArgs: IdArgs): Promise<boolean> {
-    return await userRepo.deleteUser(idArgs);
+  async deleteUser(@Args() idArgs: IdArgs, @Ctx() ctx: IContext): Promise<boolean> {
+    return await userRepo.deleteUser(idArgs, ctx);
   }
 
   /**

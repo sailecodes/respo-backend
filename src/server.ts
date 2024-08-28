@@ -60,7 +60,7 @@ const main = async () => {
       store: new RedisStore({
         client: redisClient,
       }),
-      name: "sid",
+      name: process.env.COOKIE_NAME,
       secret: process.env.SECRET as string,
       resave: false,
       saveUninitialized: false,
@@ -79,7 +79,7 @@ const main = async () => {
   app.use(
     "/graphql",
     expressMiddleware(apolloServer, {
-      context: async ({ req }) => ({ req }),
+      context: async ({ req, res }) => ({ req, res }),
     })
   );
 

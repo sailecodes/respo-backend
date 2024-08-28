@@ -76,12 +76,23 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return (await this.findOneBy({ id: userId }))!;
   },
 
-  async deleteUser({ id }: IdArgs): Promise<boolean> {
+  async deleteUser({ id }: IdArgs, { req, res }: IContext): Promise<boolean> {
     const isDeleteSuccessful = (await this.delete(id)).affected;
 
     if (isDeleteSuccessful === 0) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);
 
-    return true;
+    return new Promise((resolve, reject) => {
+      req.session.destroy((err) => {
+        if (err) {
+          console.log(err);
+          return reject(false);
+        }
+
+        res.clearCookie(process.env.COOKIE_NAME!);
+
+        resolve(true);
+      });
+    });
   },
 
   async saveSong({ userId, songId }: SaveSongInput): Promise<boolean> {

@@ -14,8 +14,7 @@ export const SameUserAuthMiddleware: MiddlewareFn<IContext> = ({ context: { req 
 
   const userId = arg.userId ? arg.userId : arg.id;
 
-  if (req.session.uid !== userId)
-    throw new Error(UNAUTHENTICATED_ACCESS_ERR_MESSAGE + ", not allowed to perform this action.");
+  if (req.session.uid !== userId) throw new Error(UNAUTHENTICATED_ACCESS_ERR_MESSAGE);
 
   return next();
 };
