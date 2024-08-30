@@ -1,0 +1,83 @@
+@use "variables" as vars;
+
+// ==============================================
+// Default stylings
+// ==============================================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: vars.$color--bg;
+  overflow: hidden;
+}
+
+// ==============================================
+// Inputs
+// ==============================================
+
+input {
+  font-family: inherit;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+select {
+  font-family: inherit;
+}
+
+// ==============================================
+// Links
+// ==============================================
+
+a {
+  font-family: inherit;
+  text-decoration: none;
+}
+
+// ==============================================
+// Buttons
+// ==============================================
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+}
+
+::file-selector-button {
+  font-family: inherit;
+  border: none;
+}
+
+button:hover,
+::file-selector-button:hover {
+  cursor: pointer;
+}
+
+// ==============================================
+// Scrollbar
+// ==============================================
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-thumb {
+}
