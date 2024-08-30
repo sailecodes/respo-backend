@@ -25,11 +25,13 @@ export class SongResolver {
    * Adds a Song
    *
    * @remarks
-   * Restricted route authenticated by the `ARTIST` and `ADMIN` roles
+   * - Authorized route
+   * - Role-restricted route
    *
-   * @param addSongInput An object containing information about the Song
-   * @returns A promise of a Song with the given information or null if no Artist can be found
+   * @param addSongInput An object containing information about a Song
+   * @returns A promise of a Song with the given information or null if no Artist match the given id
    */
+  @Authorized("artist")
   @Mutation(() => SongEntity, { nullable: true })
   async addSong(@Arg("addSongInput") addSongInput: AddSongInput): Promise<SongEntity | null> {
     return await songRepo.addSong(addSongInput);
