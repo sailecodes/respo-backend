@@ -18,10 +18,9 @@ const Auth = () => {
 
   const handleRedirect = () => {
     setIsRegisterPage(!isRegisterPage);
-    // setUsername("BRUH");
-    // setEmail("");
-    // setPassword("");
-    // ??
+    setUsername("");
+    setEmail("");
+    setPassword("");
   };
 
   const handleTestDrive = () => {
@@ -34,9 +33,16 @@ const Auth = () => {
         <header>Respo</header>
         <p className="auth--subheader">A Spotify-wannabe-clone.</p>
         <form className="auth--form" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-          {isRegisterPage && <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />}
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          {isRegisterPage && (
+            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          )}
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button>{isRegisterPage ? "Register" : "Login"}</button>
         </form>
         <p className="auth--redirect">

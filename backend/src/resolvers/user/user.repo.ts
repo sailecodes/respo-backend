@@ -3,7 +3,7 @@ import { dataSource } from "../../dataSource";
 import { UserEntity } from "../../entities/user.entity";
 import { IdArgs } from "../utils/args/id.args";
 import { IContext } from "../utils/interfaces/context.interface";
-import { LoginUserArgs } from "./args/login-user-args";
+import { LoginUserInput } from "./inputs/login-user.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { UpdateUserInput } from "./inputs/update-user.input";
@@ -35,7 +35,7 @@ export const userRepo = dataSource.getRepository(UserEntity).extend({
     return true;
   },
 
-  async loginUser({ username, password }: LoginUserArgs, { req }: IContext): Promise<UserEntity> {
+  async loginUser({ username, password }: LoginUserInput, { req }: IContext): Promise<UserEntity> {
     const loggedUser = await this.findOneBy({ username });
 
     if (!loggedUser) throw new Error(USER_NONEXISTENT_ERR_MESSAGE);

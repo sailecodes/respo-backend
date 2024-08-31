@@ -6,7 +6,7 @@ import { UserEntity } from "../../entities/user.entity";
 import { RegisterUserInput } from "./inputs/register-user.input";
 import { UserRelationFlagArgs } from "./args/user-relation-flag.args";
 import { IContext } from "../utils/interfaces/context.interface";
-import { LoginUserArgs } from "./args/login-user-args";
+import { LoginUserInput } from "./inputs/login-user.input";
 
 /**
  * Defines the queries, mutations, and field resolvers of the User and related entities
@@ -28,14 +28,14 @@ export class UserResolver {
   /**
    * Logs in a User
    *
-   * @param loginUserArgs An object containing login information about a User
+   * @param loginUserInput An object containing login information about a User
    * @param ctx An object containing the req and res fields
    * @returns A promise of a User matching the given information
    * @throws An Error if no User matches the username or the password is incorrect
    */
   @Mutation(() => UserEntity)
-  async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity> {
-    return await userRepo.loginUser(loginUserArgs, ctx);
+  async loginUser(@Arg("loginUserInput") loginUserInput: LoginUserInput, @Ctx() ctx: IContext): Promise<UserEntity> {
+    return await userRepo.loginUser(loginUserInput, ctx);
   }
 
   /**

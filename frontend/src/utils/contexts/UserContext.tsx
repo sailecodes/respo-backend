@@ -61,7 +61,7 @@ export const UserProvider = ({ children }: ReactNode) => {
   const [loginMutate, { ...logi }] = useMutation(
     gql`
       mutation LoginUser($username: String!, $password: String!) {
-        data: loginUser(username: $username, password: $password) {
+        data: loginUser(loginUserInput: { username: $username, password: $password }) {
           id
           username
         }
