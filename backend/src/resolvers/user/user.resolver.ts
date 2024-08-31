@@ -17,11 +17,11 @@ export class UserResolver {
    * Registers a User
    *
    * @param registerUserInput An object containing register information about a User
-   * @returns A promise of a User with the given information
+   * @returns A promise of a boolean true if a User is registered
    * @throws An Error if the email or username already exist
    */
-  @Mutation(() => UserEntity)
-  async registerUser(@Arg("registerUserInput") registerUserInput: RegisterUserInput): Promise<UserEntity> {
+  @Mutation(() => Boolean)
+  async registerUser(@Arg("registerUserInput") registerUserInput: RegisterUserInput): Promise<boolean> {
     return await userRepo.registerUser(registerUserInput);
   }
 
@@ -33,7 +33,7 @@ export class UserResolver {
    * @returns A promise of a User matching the given information
    * @throws An Error if no User matches the username or the password is incorrect
    */
-  @Query(() => UserEntity)
+  @Mutation(() => UserEntity)
   async loginUser(@Args() loginUserArgs: LoginUserArgs, @Ctx() ctx: IContext): Promise<UserEntity> {
     return await userRepo.loginUser(loginUserArgs, ctx);
   }
@@ -44,7 +44,7 @@ export class UserResolver {
    * @param ctx An object containing the req and res fields
    * @returns A Promise of a boolean true upon logging out
    */
-  @Query(() => Boolean)
+  @Mutation(() => Boolean)
   async logoutUser(@Ctx() ctx: IContext): Promise<boolean> {
     return await userRepo.logoutUser(ctx);
   }

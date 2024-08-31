@@ -52,7 +52,7 @@ const main = async () => {
   app.use(
     express.json(),
     cors({
-      origin: ["http://localhost:4000"],
+      origin: ["http://localhost:4000", "http://localhost:5173"],
       credentials: true,
     }),
     session({

@@ -18,20 +18,21 @@ import {
  * See user.resolver.ts for method descriptions
  */
 export const userRepo = dataSource.getRepository(UserEntity).extend({
-  async registerUser({ email, username, password }: RegisterUserInput): Promise<UserEntity> {
+  async registerUser({ username, email, password }: RegisterUserInput): Promise<boolean> {
     if (await this.existsBy({ email })) throw new Error(EMAIL_NOT_UNIQUE_ERR_MESSAGE);
     else if (await this.existsBy({ username })) throw new Error(USERNAME_NOT_UNIQUE_ERR_MESSAGE);
 
     const hashedPassword = await hash(password, await genSalt(10));
 
-    const newUser = this.create({
-      password: hashedPassword,
-      email,
-      username,
-    });
-    const newUserId = (await this.insert(newUser)).identifiers[0].id;
+    await this.insert(
+      this.create({
+        password: hashedPassword,
+        email,
+        username,
+      })
+    );
 
-    return (await this.findOneBy({ id: newUserId }))!;
+    return true;
   },
 
   async loginUser({ username, password }: LoginUserArgs, { req }: IContext): Promise<UserEntity> {

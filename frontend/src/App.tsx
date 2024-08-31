@@ -1,12 +1,15 @@
 import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "./utils/apolloClient";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./utils/router";
+import { router } from "./utils/init/router";
+import { apolloClient } from "./utils/init/apolloClient";
+import { UserProvider } from "./utils/contexts/UserContext";
 
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     </ApolloProvider>
   );
 }

@@ -4,12 +4,12 @@ import { Field, InputType } from "type-graphql";
 @InputType()
 export class RegisterUserInput {
   @Field()
-  @IsEmail()
-  email: string;
-
-  @Field()
   @Length(3, 20)
   username: string;
+
+  @Field()
+  @IsEmail()
+  email: string;
 
   @Field()
   @MinLength(8)

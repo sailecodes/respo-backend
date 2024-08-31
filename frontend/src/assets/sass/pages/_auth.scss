@@ -11,6 +11,8 @@
 
 .auth > section {
   color: vars.$color--white;
+
+  width: 28rem;
 }
 
 .auth > section > header {
@@ -26,6 +28,14 @@
   margin-bottom: 3.6rem;
 }
 
+.auth--form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  margin-bottom: 1.6rem;
+}
+
 .auth--form > input,
 .auth--form > button {
   width: 100%;
@@ -36,8 +46,6 @@
 
 .auth--form > input {
   font-size: 1.4rem;
-
-  margin-bottom: 1.2rem;
 }
 
 .auth--form > button {
@@ -46,15 +54,13 @@
 
   font-size: 1.5rem;
   font-weight: 600;
-
-  margin-bottom: 1.6rem;
 }
 
 .auth--redirect {
   font-size: 1.5rem;
   text-align: center;
 
-  margin-bottom: 4.2rem;
+  margin-bottom: 3.6rem;
 }
 
 .auth--redirect > span {
