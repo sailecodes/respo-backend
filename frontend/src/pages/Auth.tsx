@@ -1,19 +1,24 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../utils/contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isRegisterPage, setIsRegisterPage] = useState<boolean>(true);
-
   const { register, login } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isRegisterPage) register.mutate!({ variables: { username, email, password } });
-    else login.mutate!({ variables: { username, password } });
+    if (isRegisterPage) {
+      register.mutate!({ variables: { username, email, password } });
+    } else {
+      login.mutate!({ variables: { username, password } });
+      navigate("/dashboard");
+    }
   };
 
   const handleRedirect = () => {
