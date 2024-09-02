@@ -6,11 +6,15 @@ import AuthFormInput from "../components/AuthFormInput";
 import { UserContext } from "../utils/contexts/UserContext";
 import { loginUser } from "../utils/queries/loginUser";
 import { registerUser } from "../utils/queries/registerUser";
+import { findErrors } from "../utils/errors/findErrors";
 
 const Auth = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [usernameHasError, setUsernameHasError] = useState<boolean>(false);
+  const [emailHasError, setEmailHasError] = useState<boolean>(false);
+  const [passwordHasError, setPasswordHasError] = useState<boolean>(false);
   const [isRegisterPage, setIsRegisterPage] = useState<boolean>(false);
 
   const { user, setUser } = useContext(UserContext);
@@ -21,20 +25,32 @@ const Auth = () => {
 
   const [register, { loading: registerLoading }] = useMutation(registerUser, {
     onCompleted: () => {
-      toast.success("hello");
       setPassword("");
       setIsRegisterPage(false);
     },
-    onError: (err) => toast.error("Please double-check all fields are valid.", { toastId: "toastRegisterErrorId" }), // TODO:
+    onError: (err) => {
+      const { rerrs, affected } = findErrors(err);
+
+      rerrs.forEach((e) => toast.error(e, { toastId: e, autoClose: false }));
+
+      setUsernameHasError(affected.username);
+      setEmailHasError(affected.email);
+      setPasswordHasError(affected.password);
+    },
   });
 
   const [login, { loading: loginLoading }] = useMutation(loginUser, {
     onCompleted: ({ data: { id, username } }) => {
+      toast.dismiss();
       toast.success("Welcome back, music lovers.", { toastId: "toastLoginId" });
+
       setUser!({ id, username });
       navigate("/dashboard");
     },
-    onError: (err) => toast.error("Please double-check all credentials are correct.", { toastId: "toastLoginErrorId" }), // TODO:
+    onError: (err) => {
+      console.log(err.graphQLErrors);
+      toast.error("Please double-check all credentials are correct.", { toastId: "toastLoginErrorId" });
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -66,15 +82,23 @@ const Auth = () => {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            hasErr={usernameHasError}
           />
           {isRegisterPage && (
-            <AuthFormInput type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <AuthFormInput
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              hasErr={emailHasError}
+            />
           )}
           <AuthFormInput
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            hasErr={passwordHasError}
           />
           <button>{isRegisterPage ? "Register" : "Login"}</button>
         </form>
