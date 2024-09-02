@@ -1,5 +1,12 @@
 import { VscError } from "react-icons/vsc";
-import { AuthFormInputProps } from "../utils/interfaces/props/AuthFormInputProps";
+
+interface AuthFormInputProps {
+  type: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  hasErr: boolean;
+}
 
 const AuthFormInput = ({ type, placeholder, value, onChange, hasErr }: AuthFormInputProps) => {
   return (

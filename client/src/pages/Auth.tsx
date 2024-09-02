@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ScaleLoader } from "react-spinners";
 import AuthFormInput from "../components/AuthFormInput";
 import { UserContext } from "../utils/contexts/UserContext";
 import { loginUser } from "../utils/queries/loginUser";
@@ -17,7 +18,7 @@ const Auth = () => {
   const [passwordHasError, setPasswordHasError] = useState<boolean>(false);
   const [isRegisterPage, setIsRegisterPage] = useState<boolean>(false);
 
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext); // TODO:
 
   const navigate = useNavigate();
 
@@ -48,8 +49,9 @@ const Auth = () => {
       navigate("/dashboard");
     },
     onError: (err) => {
-      console.log(err.graphQLErrors);
-      toast.error("Please double-check all credentials are correct.", { toastId: "toastLoginErrorId" });
+      const { rerrs } = findErrors(err);
+
+      rerrs.forEach((e) => toast.error(e, { toastId: e, autoClose: false }));
     },
   });
 
@@ -81,7 +83,10 @@ const Auth = () => {
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setUsernameHasError(false);
+            }}
             hasErr={usernameHasError}
           />
           {isRegisterPage && (
@@ -89,7 +94,10 @@ const Auth = () => {
               type="text"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailHasError(false);
+              }}
               hasErr={emailHasError}
             />
           )}
@@ -97,10 +105,16 @@ const Auth = () => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordHasError(false);
+            }}
             hasErr={passwordHasError}
           />
-          <button>{isRegisterPage ? "Register" : "Login"}</button>
+          <button>
+            <ScaleLoader loading={registerLoading || loginLoading} height={10} color={"#222831"} />
+            {!registerLoading && !loginLoading && isRegisterPage ? "Register" : "Login"}
+          </button>
         </form>
         <p className="auth--redirect">
           {isRegisterPage ? "Already have an account? " : "Not yet registered? "}

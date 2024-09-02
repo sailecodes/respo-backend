@@ -36,38 +36,17 @@
   margin-bottom: 1.6rem;
 }
 
-// .auth--form > div > input,
 .auth--form > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
+  height: 4rem;
 
   padding: 1rem 2rem;
   border-radius: 3px 0 0 3px;
 }
-
-// .auth--form > div {
-//   display: flex;
-// }
-
-// .auth--form > div > input {
-//   font-size: 1.4rem;
-// }
-
-// .auth--form-input-err-indicator {
-//   display: grid;
-//   place-items: center;
-
-//   background-color: #fff;
-//   color: vars.$color--btn;
-
-//   padding: 1rem 0;
-//   padding-right: 1.8rem;
-
-//   border-radius: 0 3px 3px 0;
-// }
-
-// .auth--form-input-err-indicator > svg {
-//   font-size: 2rem;
-// }
 
 .auth--form > button {
   background-color: vars.$color--highlight;

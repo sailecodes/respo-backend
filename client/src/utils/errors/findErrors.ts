@@ -1,10 +1,13 @@
 import { ApolloError } from "@apollo/client";
 import {
-  EMAIL_NOT_EMAIL_ERR_MSG,
-  PASSWORD_LENGTH_ERR_MSG,
-  USERNAME_MAX_LENGTH_ERR_MSG,
-  USERNAME_MIN_LENGTH_ERR_MSG,
-} from "./potentialErrors";
+  EMAIL_NOT_EMAIL_TOAST_MSG,
+  PASSWORD_LENGTH_TOAST_MSG,
+  USERNAME_LENGTH_TOAST_MSG,
+  PASSWORD_NONEMPTY_TOAST_MSG,
+  USERNAME_NONEMPTY_TOAST_MSG,
+  USER_DNE_TOAST_MSG,
+  PASSWORD_INCORRECT_TOAST_MSG,
+} from "../constants";
 
 interface ValidationError {
   children: [];
@@ -23,15 +26,24 @@ const reformatErrors = (errs: string[]): { rerrs: string[]; affected: AffectedEr
   const affected: AffectedErrors = {};
 
   errs.map((err) => {
-    if (err === USERNAME_MIN_LENGTH_ERR_MSG || err === USERNAME_MAX_LENGTH_ERR_MSG) {
-      rerrs.push("Username must be more than 3 characters and shorter than 20 characters");
+    const e = err.toLowerCase();
+
+    if (e.includes("user") || e.includes("username")) {
       affected.username = true;
-    } else if (err === PASSWORD_LENGTH_ERR_MSG) {
-      rerrs.push("Password must be longer than 8 characters");
+
+      if (err.includes("nonexistent")) rerrs.push(USER_DNE_TOAST_MSG);
+      if (err.includes("3 characters") || err.includes("20 characters")) rerrs.push(USERNAME_LENGTH_TOAST_MSG);
+      if (err.includes("1 characters")) rerrs.push(USERNAME_NONEMPTY_TOAST_MSG);
+    } else if (e.includes("email")) {
       affected.password = true;
-    } else if (err === EMAIL_NOT_EMAIL_ERR_MSG) {
-      rerrs.push("Email must be in a valid email format");
+
+      rerrs.push(EMAIL_NOT_EMAIL_TOAST_MSG);
+    } else if (e.includes("password")) {
       affected.email = true;
+
+      if (err.includes("incorrect")) rerrs.push(PASSWORD_INCORRECT_TOAST_MSG);
+      if (err.includes("8 characters")) rerrs.push(PASSWORD_LENGTH_TOAST_MSG);
+      if (err.includes("1 characters")) rerrs.push(PASSWORD_NONEMPTY_TOAST_MSG);
     }
   });
 
@@ -48,9 +60,9 @@ export const findErrors = (err: ApolloError): { rerrs: string[]; affected: Affec
     const verrs: ValidationError[] = gerr.extensions!.validationErrors as ValidationError[];
 
     verrs.map((verr) => errs.push(verr.constraints[Object.keys(verr.constraints)[0]]));
+  } else {
+    errs.push(gerr.message);
   }
-
-  console.log(errs);
 
   return reformatErrors(errs);
 };
