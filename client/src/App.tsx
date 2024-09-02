@@ -11,7 +11,7 @@ function App() {
     <ApolloProvider client={apolloClient}>
       <UserProvider>
         <RouterProvider router={router} />
-        <ToastContainer stacked hideProgressBar theme="dark" />
+        <ToastContainer stacked hideProgressBar theme="dark" containerId={"tc"} />
       </UserProvider>
     </ApolloProvider>
   );

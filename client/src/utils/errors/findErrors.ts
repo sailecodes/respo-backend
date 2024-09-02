@@ -31,19 +31,19 @@ const reformatErrors = (errs: string[]): { rerrs: string[]; affected: AffectedEr
     if (e.includes("user") || e.includes("username")) {
       affected.username = true;
 
-      if (err.includes("nonexistent")) rerrs.push(USER_DNE_TOAST_MSG);
-      if (err.includes("3 characters") || err.includes("20 characters")) rerrs.push(USERNAME_LENGTH_TOAST_MSG);
-      if (err.includes("1 characters")) rerrs.push(USERNAME_NONEMPTY_TOAST_MSG);
+      if (e.includes("nonexistent")) rerrs.push(USER_DNE_TOAST_MSG);
+      if (e.includes("3 characters") || e.includes("20 characters")) rerrs.push(USERNAME_LENGTH_TOAST_MSG);
+      if (e.includes("1 characters")) rerrs.push(USERNAME_NONEMPTY_TOAST_MSG);
     } else if (e.includes("email")) {
-      affected.password = true;
+      affected.email = true;
 
       rerrs.push(EMAIL_NOT_EMAIL_TOAST_MSG);
     } else if (e.includes("password")) {
-      affected.email = true;
+      affected.password = true;
 
-      if (err.includes("incorrect")) rerrs.push(PASSWORD_INCORRECT_TOAST_MSG);
-      if (err.includes("8 characters")) rerrs.push(PASSWORD_LENGTH_TOAST_MSG);
-      if (err.includes("1 characters")) rerrs.push(PASSWORD_NONEMPTY_TOAST_MSG);
+      if (e.includes("incorrect")) rerrs.push(PASSWORD_INCORRECT_TOAST_MSG);
+      if (e.includes("8 characters")) rerrs.push(PASSWORD_LENGTH_TOAST_MSG);
+      if (e.includes("1 characters")) rerrs.push(PASSWORD_NONEMPTY_TOAST_MSG);
     }
   });
 
@@ -53,8 +53,6 @@ const reformatErrors = (errs: string[]): { rerrs: string[]; affected: AffectedEr
 export const findErrors = (err: ApolloError): { rerrs: string[]; affected: AffectedErrors } => {
   const gerr = err.graphQLErrors[0];
   const errs: string[] = [];
-
-  console.log(gerr);
 
   if (gerr.message === "Argument Validation Error") {
     const verrs: ValidationError[] = gerr.extensions!.validationErrors as ValidationError[];
