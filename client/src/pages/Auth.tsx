@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AuthFormInput from "../components/AuthFormInput";
 import { UserContext } from "../utils/contexts/UserContext";
 import { loginUser } from "../utils/queries/loginUser";
@@ -16,29 +17,33 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => toast.dismiss(), []);
+
   const [register, { loading: registerLoading }] = useMutation(registerUser, {
     onCompleted: () => {
+      toast.success("hello");
       setPassword("");
       setIsRegisterPage(false);
     },
-    onError: (err) => console.log(err.graphQLErrors), // TODO:
+    onError: (err) => toast.error("Please double-check all fields are valid.", { toastId: "toastRegisterErrorId" }), // TODO:
   });
 
   const [login, { loading: loginLoading }] = useMutation(loginUser, {
     onCompleted: ({ data: { id, username } }) => {
-      if (!user) {
-        setUser!({ id, username });
-        navigate("/dashboard");
-      }
+      toast.success("Welcome back, music lovers.", { toastId: "toastLoginId" });
+      setUser!({ id, username });
+      navigate("/dashboard");
     },
-    onError: (err) => console.log(err.graphQLErrors), // TODO:
+    onError: (err) => toast.error("Please double-check all credentials are correct.", { toastId: "toastLoginErrorId" }), // TODO:
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (isRegisterPage) register({ variables: { username, email, password } });
-    else login({ variables: { username, password } });
+    else {
+      login({ variables: { username, password } });
+    }
   };
 
   const handleRedirect = () => {
@@ -48,7 +53,7 @@ const Auth = () => {
     setPassword("");
   };
 
-  const handleTestDrive = () => login({ variables: { username: "test@gmail.com", password: "test" } });
+  const handleTestDrive = () => login({ variables: { username: "test", password: "testuseronly" } });
 
   return (
     <main className="auth">

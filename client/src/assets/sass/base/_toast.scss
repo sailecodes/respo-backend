@@ -1,0 +1,11 @@
+@use "variables" as vars;
+
+.Toastify__toast-body > div:last-child {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.Toastify__toast {
+  background-color: vars.$color--bg-alt;
+}

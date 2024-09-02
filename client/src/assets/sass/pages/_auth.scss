@@ -57,7 +57,7 @@
 //   place-items: center;
 
 //   background-color: #fff;
-//   color: vars.$color--primary;
+//   color: vars.$color--btn;
 
 //   padding: 1rem 0;
 //   padding-right: 1.8rem;
@@ -70,7 +70,7 @@
 // }
 
 .auth--form > button {
-  background-color: vars.$color--secondary;
+  background-color: vars.$color--highlight;
   color: vars.$color--white;
 
   font-size: 1.5rem;
@@ -85,7 +85,7 @@
 }
 
 .auth--redirect > span {
-  color: vars.$color--secondary-alt;
+  color: vars.$color--highlight-alt;
 }
 
 .auth--redirect > span:hover {
@@ -100,7 +100,7 @@
 }
 
 .auth--test > button {
-  background-color: vars.$color--primary;
+  background-color: vars.$color--btn;
   color: vars.$color--white;
 
   width: 100%;
