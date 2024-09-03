@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { FaCog } from "react-icons/fa";
 import DashboardNav from "./DashboardNav";
 import DashboardPlayer from "./DashboardPlayer";
 
@@ -9,7 +10,11 @@ const DashboardExplorer = () => {
 const Dashboard = () => {
   return (
     <main className="dashboard">
-      <div className="dashboard__profile"></div>
+      <nav className="dashboard__secondary-nav">
+        <p className="dashboard__secondary-nav-greeting">Good evening</p>
+        <FaCog />
+        <div className="dashboard__secondary-nav-profile" />
+      </nav>
       <DashboardNav />
       <DashboardExplorer />
       <DashboardPlayer />

@@ -1,4 +1,4 @@
-// Dashboard
+@use "../base/variables" as vars;
 
 .dashboard {
   display: grid;
@@ -15,15 +15,34 @@
   padding: 2.5rem 2rem;
 }
 
-.dashboard__profile {
+.dashboard__secondary-nav {
+  grid-area: upper;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard__secondary-nav-greeting {
+  color: vars.$color__white;
+
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.dashboard__secondary-nav > svg {
+  color: vars.$color__white;
+
+  font-size: 2rem;
+
+  margin: 0 2rem 0 auto;
+}
+
+.dashboard__secondary-nav-profile {
   background-color: teal;
 
-  grid-area: upper;
-  justify-self: flex-end;
-  align-self: center;
-
-  width: 4rem;
-  height: 4rem;
+  width: 2.1rem;
+  height: 2.1rem;
 
   border-radius: 50%;
 }
