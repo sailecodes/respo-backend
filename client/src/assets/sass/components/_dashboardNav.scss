@@ -1,0 +1,38 @@
+@use "../base/variables" as vars;
+
+.dashboard-nav {
+  grid-area: lower;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: 0.5rem 0 0.5rem 0;
+  border: 1px solid red;
+}
+
+.dashboard-nav > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+
+  width: 6rem;
+}
+
+.dashboard-nav > a > svg {
+  color: vars.$color__white;
+
+  font-size: 2.5rem;
+}
+
+.dashboard-nav > a.active > p {
+  font-weight: 600;
+}
+
+.dashboard-nav > a > p {
+  color: vars.$color__white;
+
+  font-size: 1.1rem;
+}

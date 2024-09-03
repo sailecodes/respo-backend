@@ -10,7 +10,7 @@
 }
 
 .auth > section {
-  color: vars.$color--white;
+  color: vars.$color__white;
 
   width: 28rem;
 }
@@ -49,8 +49,8 @@
 }
 
 .auth--form > button {
-  background-color: vars.$color--highlight;
-  color: vars.$color--white;
+  background-color: vars.$color__highlight;
+  color: vars.$color__white;
 
   font-size: 1.5rem;
   font-weight: 600;
@@ -64,7 +64,7 @@
 }
 
 .auth--redirect > span {
-  color: vars.$color--highlight-alt;
+  color: vars.$color__highlight-alt;
 }
 
 .auth--redirect > span:hover {
@@ -79,8 +79,8 @@
 }
 
 .auth--test > button {
-  background-color: vars.$color--btn;
-  color: vars.$color--white;
+  background-color: vars.$color__btn;
+  color: vars.$color__white;
 
   width: 100%;
 

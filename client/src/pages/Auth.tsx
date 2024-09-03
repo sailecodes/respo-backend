@@ -27,6 +27,11 @@ then provides an invalid username while maintaining the password, which leaves
 an error message for both username and password. Desired functionality is only
 the username should display an error message
 
+TODO:
+
+Use `user` variable to check if the user is already logged in...maybe even use
+the `sid` cookie to prevent double login
+
 */
 const Auth = () => {
   const [username, setUsername] = useState<string>("");

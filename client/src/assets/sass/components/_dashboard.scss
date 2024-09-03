@@ -1,0 +1,44 @@
+// Dashboard
+
+.dashboard {
+  display: grid;
+  grid-template-rows: 5rem 1fr 5rem auto;
+  grid-template-columns: 5rem 1fr;
+  grid-template-areas:
+    "upper upper"
+    "main main"
+    "player player"
+    "lower lower";
+
+  height: 100vh;
+
+  padding: 4rem 2rem;
+}
+
+.dashboard__profile {
+  background-color: teal;
+
+  grid-area: upper;
+  justify-self: flex-end;
+  align-self: center;
+
+  width: 4rem;
+  height: 4rem;
+
+  border-radius: 50%;
+}
+
+// Dashboard Explorer
+.dashboard-explorer {
+  // grid-area: explorer;
+
+  background-color: green;
+}
+
+// Dashboard Player
+
+.dashboard-player {
+  grid-area: player;
+
+  background-color: blue;
+}

@@ -1,7 +1,7 @@
 @use "variables" as vars;
 
 .Toastify__toast {
-  background-color: vars.$color--bg-alt;
+  background-color: vars.$color__bg-alt;
   border-radius: 3px;
 }
 
