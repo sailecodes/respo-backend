@@ -1,12 +1,14 @@
-import HomeTopPlaylistsItem from "./HomeTopPlaylistsItem";
+import HomeSmallItem from "./HomeSmallItem";
 
 const HomeTopPlaylists = () => {
   return (
     <section className="home-top-playlists">
-      <HomeTopPlaylistsItem />
-      <HomeTopPlaylistsItem />
-      <HomeTopPlaylistsItem />
-      <HomeTopPlaylistsItem />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
+      <HomeSmallItem titleOrName="Top playlistTop pasdfasdfasdfasdfasdf" />
     </section>
   );
 };

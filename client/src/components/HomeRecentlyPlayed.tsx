@@ -1,9 +1,9 @@
 import HomeBigItem from "./HomeBigItem";
 
-const HomeTopSongs = () => {
+const HomeRecentlyPlayed = () => {
   return (
-    <section className="home-top-songs">
-      <header>Your addictions</header>
+    <section className="home-recently-played">
+      <header>Jump back in</header>
       <div>
         <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
         <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
@@ -16,4 +16,4 @@ const HomeTopSongs = () => {
   );
 };
 
-export default HomeTopSongs;
+export default HomeRecentlyPlayed;
