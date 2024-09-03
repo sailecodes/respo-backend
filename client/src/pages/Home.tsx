@@ -1,4 +1,5 @@
 import HomeTopPlaylists from "../components/HomeTopPlaylists";
+import HomeTopSongs from "../components/HomeTopSongs";
 
 /*
 
@@ -11,7 +12,7 @@ const Home = () => {
   return (
     <section className="home">
       <HomeTopPlaylists />
-      <section className="home__top-songs"></section>
+      <HomeTopSongs />
       <section className="home__recently-played"></section>
     </section>
   );

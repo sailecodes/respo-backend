@@ -1,0 +1,21 @@
+@use "../base/variables" as vars;
+
+.home-song-item__dummy-img {
+  background-color: gray;
+
+  width: 11rem;
+  height: 11rem;
+
+  margin-bottom: 0.4rem;
+}
+
+.home-song-item__song-info > p {
+  color: vars.$color__white;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.home-song-item__song-info > p:last-of-type {
+  color: vars.$color__white-alt;
+}
