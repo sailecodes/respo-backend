@@ -3,12 +3,12 @@
 .dashboard {
   display: grid;
   grid-template-rows: 5rem 1fr auto auto;
-  grid-template-columns: 5rem 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "upper upper"
-    "main main"
-    "player player"
-    "lower lower";
+    "upper"
+    "main"
+    "player"
+    "lower";
 
   height: 100vh;
 
@@ -21,6 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  padding: 1rem 0 1rem 0;
 }
 
 .dashboard__secondary-nav-greeting {
@@ -47,9 +49,10 @@
   border-radius: 50%;
 }
 
-// Dashboard Explorer
+// DashboardExplorer
+
 .dashboard-explorer {
-  // grid-area: explorer;
+  display: none;
 
   background-color: green;
 }
