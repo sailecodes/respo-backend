@@ -5,12 +5,12 @@ const HomePopularPlaylists = () => {
     <section className="home-popular-playlists">
       <header>Potential bangers</header>
       <div>
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
-        <HomeBigItem titleOrName="Playlist" ownerOrArtist="User" />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
+        <HomeBigItem id="dummy" titleOrName="Playlist" ownerOrArtist="User" isSongItem={false} />
       </div>
     </section>
   );

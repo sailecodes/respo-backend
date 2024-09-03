@@ -5,12 +5,12 @@ const HomeRecentlyPlayed = () => {
     <section className="home-recently-played">
       <header>Jump back in</header>
       <div>
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
-        <HomeBigItem titleOrName="Song" ownerOrArtist="Artist" />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
+        <HomeBigItem id="dummy" titleOrName="Song" ownerOrArtist="Artist" isSongItem={true} />
       </div>
     </section>
   );

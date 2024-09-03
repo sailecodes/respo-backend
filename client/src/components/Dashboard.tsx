@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { FaCog } from "react-icons/fa";
 import DashboardNav from "./DashboardNav";
 import DashboardPlayer from "./DashboardPlayer";
@@ -12,8 +12,12 @@ const Dashboard = () => {
     <main className="dashboard">
       <nav className="dashboard__secondary-nav">
         <p className="dashboard__secondary-nav-greeting">Good evening</p>
-        <FaCog />
-        <div className="dashboard__secondary-nav-profile" />
+        <Link to="/dashboard/account">
+          <div className="dashboard__secondary-nav-profile" />
+        </Link>
+        <Link to="/dashboard/settings">
+          <FaCog />
+        </Link>
       </nav>
       <DashboardNav />
       <DashboardExplorer />

@@ -32,12 +32,19 @@
   font-weight: 800;
 }
 
-.dashboard__secondary-nav > svg {
+.dashboard__secondary-nav > a {
+  display: grid;
+  place-items: center;
+}
+
+.dashboard__secondary-nav > a:first-of-type {
+  margin: 0 2rem 0 auto;
+}
+
+.dashboard__secondary-nav > a > svg {
   color: vars.$color__white;
 
   font-size: 2rem;
-
-  margin: 0 2rem 0 auto;
 }
 
 .dashboard__secondary-nav-profile {

@@ -2,6 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import Auth from "../../pages/Auth";
 import Dashboard from "../../components/Dashboard";
 import Home from "../../pages/Home";
+import Search from "../../pages/Search";
+import Playlist from "../../pages/Playlist";
+import Settings from "../../pages/Settings";
+import Library from "../../pages/Library";
+import Song from "../../pages/Song";
+import Account from "../../pages/Account";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +21,30 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "search",
+        element: <Search />,
+      },
+      {
+        path: "library",
+        element: <Library />,
+      },
+      {
+        path: "song/:id",
+        element: <Song />,
+      },
+      {
+        path: "playlist/:id",
+        element: <Playlist />,
+      },
+      {
+        path: "account",
+        element: <Account />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },
