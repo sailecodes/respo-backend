@@ -1,12 +1,9 @@
 import { Outlet } from "react-router-dom";
 import DashboardNav from "./DashboardNav";
+import DashboardPlayer from "./DashboardPlayer";
 
 const DashboardExplorer = () => {
   return <section className="dashboard-explorer"></section>;
-};
-
-const DashboardPlayer = () => {
-  return <section className="dashboard-player">Dashboard player</section>;
 };
 
 const Dashboard = () => {
@@ -15,8 +12,8 @@ const Dashboard = () => {
       <div className="dashboard__profile"></div>
       <DashboardNav />
       <DashboardExplorer />
-      <Outlet />
       <DashboardPlayer />
+      <Outlet />
     </main>
   );
 };
