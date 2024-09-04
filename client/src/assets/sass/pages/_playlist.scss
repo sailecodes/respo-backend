@@ -1,0 +1,75 @@
+@use "../base/variables" as vars;
+
+.playlist {
+  padding: 1rem 0;
+}
+
+.playlist > div:first-of-type {
+  position: relative;
+
+  display: flex;
+
+  margin-bottom: 0.8rem;
+}
+
+.playlist__back-btn {
+  position: absolute;
+  top: -2.3%;
+  left: -1.8%;
+}
+
+.playlist__back-btn > svg {
+  color: vars.$color__white;
+
+  font-size: 2.8rem;
+}
+
+.playlist__img-dummy {
+  background-color: gray;
+
+  width: 20rem;
+  height: 20rem;
+
+  margin: 0 auto;
+}
+
+.playlist__description {
+  margin-bottom: 1.6rem;
+}
+
+.playlist__description > p {
+  color: vars.$color__white-alt;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.playlist__description > p > span {
+  color: vars.$color__white;
+}
+
+.playlist__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  margin-bottom: 1.6rem;
+}
+
+.playlist__nav > svg {
+  color: #a6ff96;
+
+  font-size: 4.2rem;
+}
+
+.playlist__nav > svg:last-of-type {
+  color: vars.$color__white-alt;
+
+  font-size: 2rem;
+}
+
+.playlist__songs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}

@@ -1,0 +1,25 @@
+@use "../base/variables" as vars;
+
+.library-playlists-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.library-playlists-item__dummy-img {
+  background-color: gray;
+
+  width: 4.8rem;
+  height: 4.8rem;
+}
+
+.library-playlists-item__information > p {
+  color: vars.$color__white;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.library-playlists-item__information > p:last-of-type {
+  color: vars.$color__white-alt;
+}

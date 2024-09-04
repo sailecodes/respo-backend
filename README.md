@@ -42,3 +42,8 @@ Deployed on `AWS`.
 'TypeError: client.get/set is not a function...'
 
 - Solution: Must initialize redisClient as `const redisClient = createClient(); redisClient.connect().catch(console.error);` and not `const redisClient = createClient().connect()`
+
+## Potential features
+
+- Sorting
+- Pinning

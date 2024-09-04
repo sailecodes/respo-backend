@@ -6,7 +6,6 @@ import Search from "../../pages/Search";
 import Playlist from "../../pages/Playlist";
 import Settings from "../../pages/Settings";
 import Library from "../../pages/Library";
-import Song from "../../pages/Song";
 import Account from "../../pages/Account";
 
 export const router = createBrowserRouter([
@@ -29,10 +28,6 @@ export const router = createBrowserRouter([
       {
         path: "library",
         element: <Library />,
-      },
-      {
-        path: "song/:id",
-        element: <Song />,
       },
       {
         path: "playlist/:id",

@@ -1,0 +1,37 @@
+@use "../base/variables" as vars;
+
+.playlist-songs-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.playlist-songs-item__dummy-img {
+  background-color: gray;
+
+  width: 4.8rem;
+  height: 4.8rem;
+}
+
+.playlist-songs-item__description > p {
+  color: vars.$color__white;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.playlist-songs-item__description > p:last-of-type {
+  color: vars.$color__white-alt;
+}
+
+.playlist-songs-item > svg {
+  color: vars.$color__white-alt;
+
+  font-size: 2rem;
+
+  margin-left: auto;
+}
+
+.playlist-songs-item > svg:hover {
+  cursor: pointer;
+}

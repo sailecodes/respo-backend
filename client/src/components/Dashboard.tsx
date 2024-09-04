@@ -9,7 +9,7 @@ const DashboardExplorer = () => {
 
 const Dashboard = () => {
   return (
-    <main className="dashboard">
+    <section className="dashboard">
       <nav className="dashboard__secondary-nav">
         <p className="dashboard__secondary-nav-greeting">Good evening</p>
         <Link to="/dashboard/account">
@@ -23,7 +23,7 @@ const Dashboard = () => {
       <DashboardExplorer />
       <DashboardPlayer />
       <Outlet />
-    </main>
+    </section>
   );
 };
 

@@ -5,12 +5,12 @@ import HomePopularPlaylists from "../components/HomePopularPlaylists";
 
 const Home = () => {
   return (
-    <section className="home">
+    <main className="home">
       <HomeTopPlaylists />
       <HomeTopSongs />
       <HomeRecentlyPlayed />
       <HomePopularPlaylists />
-    </section>
+    </main>
   );
 };
 
