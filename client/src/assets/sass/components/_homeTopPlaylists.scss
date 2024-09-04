@@ -6,3 +6,11 @@
   grid-template-rows: 1fr 1fr;
   gap: vars.$gap__mb;
 }
+
+@media (min-width: 701px) {
+  .home-top-playlists {
+    grid-template-columns: unset;
+    grid-auto-columns: 1fr 1fr;
+    grid-auto-flow: column;
+  }
+}

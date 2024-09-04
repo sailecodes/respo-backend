@@ -1,0 +1,167 @@
+@use "../base/variables" as vars;
+
+.dashboard-secondary-nav {
+  grid-area: upper;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 0 1rem 0;
+}
+
+.dashboard-secondary-nav__left {
+  display: grid;
+  place-items: center;
+}
+
+.dashboard-secondary-nav__left-home-link-icon {
+  display: none;
+}
+
+.dashboard-secondary-nav__left-greeting {
+  color: vars.$color__white;
+
+  font-size: vars.$font__mb-header;
+  font-weight: 800;
+}
+
+.dashboard-secondary-nav__search {
+  display: none;
+}
+
+.dashboard-secondary-nav__links {
+  display: flex;
+  gap: 2rem;
+}
+
+.dashboard-secondary-nav__links > a {
+  display: grid;
+  place-items: center;
+}
+
+.dashboard-secondary-nav__links-account {
+  background-color: vars.$color__bg-alt;
+
+  width: 3.8rem;
+  height: 3.8rem;
+
+  border-radius: 50%;
+}
+
+.dashboard-secondary-nav__account-img {
+  background-color: teal;
+
+  width: 2.1rem;
+  height: 2.1rem;
+
+  border-radius: 50%;
+}
+
+.dashboard-secondary-nav__links-settings-icon {
+  color: vars.$color__white;
+
+  font-size: vars.$font__mb-header;
+}
+
+@media (min-width: 961px) {
+  .dashboard-secondary-nav__left {
+    display: flex;
+    justify-content: flex-start;
+
+    width: 9.6rem;
+  }
+
+  .dashboard-secondary-nav__left-home-link {
+    display: grid;
+    place-items: center;
+  }
+
+  .dashboard-secondary-nav__left-home-link-icon {
+    display: unset;
+
+    color: vars.$color__white;
+
+    width: 3rem;
+    height: auto;
+  }
+
+  .dashboard-secondary-nav__left-home-link-icon:hover {
+    cursor: pointer;
+
+    transform: scale(1.05);
+  }
+
+  .dashboard-secondary-nav__left-greeting {
+    display: none;
+  }
+
+  .dashboard-secondary-nav__search {
+    display: flex;
+    align-items: center;
+
+    height: 4.8rem;
+  }
+
+  .dashboard-secondary-nav__search > div {
+    display: grid;
+    place-items: center;
+
+    background-color: white;
+
+    height: 100%;
+
+    padding-left: 2rem;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .dashboard-secondary-nav__search-icon {
+    color: gray;
+
+    width: 3rem;
+    height: auto;
+  }
+
+  .dashboard-secondary-nav__search > input {
+    display: unset;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    height: 100%;
+    width: 40rem;
+
+    padding: 1rem 2rem 1rem 0.8rem;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .dashboard-secondary-nav__links-account {
+    width: 4.8rem;
+    height: 4.8rem;
+
+    border-radius: 50%;
+  }
+
+  .dashboard-secondary-nav__links-account:hover {
+    transform: scale(1.05);
+  }
+
+  .dashboard-secondary-nav__account-img {
+    background-color: vars.$color__bg;
+
+    width: 2.8rem;
+    height: 2.8rem;
+
+    border-radius: 50%;
+  }
+
+  .dashboard-secondary-nav__links-settings-icon {
+    font-size: 2.8rem;
+  }
+
+  .dashboard-secondary-nav__links-settings-icon:hover {
+    cursor: pointer;
+
+    transform: scale(1.05);
+  }
+}

@@ -3,14 +3,20 @@
 .dashboard-nav {
   grid-area: lower;
 
+  padding: 1rem 0 1rem 0;
+}
+
+.dashboard-nav > div {
   display: flex;
   align-items: center;
   justify-content: space-around;
 
-  padding: 1rem 0 1rem 0;
+  max-width: 48rem;
+
+  margin: 0 auto;
 }
 
-.dashboard-nav > a {
+.dashboard-nav > div > a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,18 +26,28 @@
   width: 6.3rem;
 }
 
-.dashboard-nav > a > svg {
+.dashboard-nav > div > a > svg {
   color: vars.$color__white;
 
   font-size: 2.5rem;
 }
 
-.dashboard-nav > a.active > p {
+.dashboard-nav > div > a.active > p {
   font-weight: 600;
 }
 
-.dashboard-nav > a > p {
+.dashboard-nav > div > a > p {
   color: vars.$color__white;
 
   font-size: vars.$font__mb-regular;
+}
+
+@media (min-width: 481px) {
+  .dashboard-nav > div > a {
+    width: 7.3rem;
+  }
+
+  .dashboard-nav > div > a > p {
+    font-size: vars.$font__tb-regular;
+  }
 }

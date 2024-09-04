@@ -24,3 +24,14 @@
 .home-big-item__song-info > p:last-of-type {
   color: vars.$color__white-alt;
 }
+
+@media (min-width: 481px) {
+  .home-big-item__dummy-img {
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .home-big-item__song-info > p {
+    font-size: vars.$font__tb-regular;
+  }
+}

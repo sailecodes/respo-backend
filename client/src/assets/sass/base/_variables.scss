@@ -22,6 +22,10 @@ $font__mb-regular: 1.1rem;
 $font__mb-subheader: 1.5rem;
 $font__mb-header: 2rem;
 
+$font__tb-regular: 1.3rem;
+$font__tb-subheader: $font__mb-subheader;
+$font__tb-header: $font__mb-header;
+
 /* Tablet */
 
 /* Laptop */
@@ -34,3 +38,5 @@ $margin__mb-related: 0.8rem;
 $margin__mb-unrelated: 1.6rem;
 $gap__mb: 0.8rem;
 $border-radius__mb: 3px;
+
+$border-radius__tb: $border-radius__mb;

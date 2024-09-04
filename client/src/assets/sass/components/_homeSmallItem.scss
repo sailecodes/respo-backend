@@ -20,7 +20,7 @@
   background-color: gray;
 
   height: 100%;
-  width: 5rem;
+  width: 4.8rem;
 
   border-radius: vars.$border-radius__mb 0 0 vars.$border-radius__mb;
 }
@@ -30,4 +30,18 @@
 
   font-size: vars.$font__mb-regular;
   font-weight: 600;
+}
+
+@media (min-width: 481px) {
+  .home-small-item {
+    height: 5.1rem;
+  }
+
+  .home-small-item__dummy {
+    width: 5.1rem;
+  }
+
+  .home-small-item > p {
+    font-size: vars.$font__tb-regular;
+  }
 }
