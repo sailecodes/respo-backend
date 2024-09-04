@@ -10,7 +10,7 @@
   font-size: 1.5rem;
 
   padding: 1rem 2rem;
-  border-radius: 3px 0 0 3px;
+  border-radius: vars.$border-radius__mb 0 0 vars.$border-radius__mb;
 }
 
 .auth-form-input > div {
@@ -23,7 +23,7 @@
   padding: 1rem 0;
   padding-right: 1.8rem;
 
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 vars.$border-radius__mb vars.$border-radius__mb 0;
 }
 
 .auth-form-input > div > svg {

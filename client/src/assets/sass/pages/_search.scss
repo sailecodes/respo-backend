@@ -9,22 +9,22 @@
   height: 3.6rem;
 
   padding: 0 2rem;
-  margin-bottom: 1.6rem;
-  border-radius: 3px;
+  margin-bottom: vars.$margin__mb-unrelated;
+  border-radius: vars.$border-radius__mb;
 }
 
 .search > div > header {
   color: vars.$color__white;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
   font-weight: 600;
 
-  margin-bottom: 1.6rem;
+  margin-bottom: vars.$margin__mb-unrelated;
 }
 
 .search__genres {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 11rem;
-  gap: 0.8rem;
+  gap: vars.$gap__mb;
 }

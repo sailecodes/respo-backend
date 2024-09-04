@@ -1,19 +1,19 @@
 @use "../base/variables" as vars;
 
-.home-small-item:hover {
-  cursor: pointer;
-}
-
 .home-small-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: vars.$gap__mb;
 
   background-color: vars.$color__bg-alt;
 
   height: 4.8rem;
 
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 vars.$border-radius__mb vars.$border-radius__mb 0;
+}
+
+.home-small-item:hover {
+  cursor: pointer;
 }
 
 .home-small-item__dummy {
@@ -22,12 +22,12 @@
   height: 100%;
   width: 5rem;
 
-  border-radius: 3px 0 0 3px;
+  border-radius: vars.$border-radius__mb 0 0 vars.$border-radius__mb;
 }
 
 .home-small-item > p {
   color: vars.$color__white;
 
-  font-size: 1.1rem;
+  font-size: vars.$font__mb-regular;
   font-weight: 600;
 }

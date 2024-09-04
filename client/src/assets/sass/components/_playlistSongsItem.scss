@@ -3,7 +3,7 @@
 .playlist-songs-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: vars.$gap__mb;
 }
 
 .playlist-songs-item__dummy-img {
@@ -12,13 +12,13 @@
   width: 4.8rem;
   height: 4.8rem;
 
-  border-radius: 3px;
+  border-radius: vars.$border-radius__mb;
 }
 
 .playlist-songs-item__description > p {
   color: vars.$color__white;
 
-  font-size: 1.1rem;
+  font-size: vars.$font__mb-regular;
   font-weight: 600;
 }
 
@@ -29,7 +29,7 @@
 .playlist-songs-item > svg {
   color: vars.$color__white-alt;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
 
   margin-left: auto;
 }

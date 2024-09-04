@@ -6,7 +6,7 @@
   background-color: vars.$color__bg-alt;
 
   padding-top: 1rem;
-  border-radius: 3px 3px 0 0;
+  border-radius: vars.$border-radius__mb vars.$border-radius__mb 0 0;
 }
 
 .dashboard-player__content {
@@ -23,13 +23,13 @@
   background-color: gray;
 
   margin: 0 0.8rem 0 0.8rem;
-  border-radius: 3px;
+  border-radius: vars.$border-radius__mb;
 }
 
 .dashboard-player__content-info > p {
   color: vars.$color__white;
 
-  font-size: 1.1rem;
+  font-size: vars.$font__mb-regular;
   font-weight: 600;
 }
 
@@ -42,7 +42,7 @@
 
   width: 2rem;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
 
   margin: 0 0.8rem 0 auto;
 }

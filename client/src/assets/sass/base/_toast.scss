@@ -2,11 +2,11 @@
 
 .Toastify__toast {
   background-color: vars.$color__bg-alt;
-  border-radius: 3px;
+  border-radius: vars.$border-radius__mb;
 }
 
 .Toastify__toast-body > div:last-child {
   font-family: "Nunito", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }

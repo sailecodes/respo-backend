@@ -10,14 +10,14 @@
   width: 11rem;
   height: 11rem;
 
-  border-radius: 3px;
+  border-radius: vars.$border-radius__mb;
   margin-bottom: 0.4rem;
 }
 
 .home-big-item__song-info > p {
   color: vars.$color__white;
 
-  font-size: 1.1rem;
+  font-size: vars.$font__mb-regular;
   font-weight: 600;
 }
 

@@ -155,7 +155,7 @@ const Auth = () => {
           />
           <button>
             <ScaleLoader loading={registerLoading || loginLoading} height={10} color={"#222831"} />
-            {!registerLoading && !loginLoading && isRegisterPage ? "Register" : "Login"}
+            {!registerLoading && !loginLoading && <p>{isRegisterPage ? "Register" : "Login"}</p>}
           </button>
         </form>
         <p className="auth--redirect">

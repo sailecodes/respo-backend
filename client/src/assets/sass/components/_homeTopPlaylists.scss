@@ -1,8 +1,8 @@
+@use "../base/variables" as vars;
+
 .home-top-playlists {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0.8rem;
-
-  margin-bottom: 2rem;
+  gap: vars.$gap__mb;
 }

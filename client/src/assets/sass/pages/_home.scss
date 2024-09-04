@@ -11,7 +11,7 @@
 }
 
 .home > section {
-  margin-bottom: 2rem;
+  margin-bottom: vars.$margin__mb-unrelated;
 }
 
 .home > section:last-of-type {
@@ -21,16 +21,16 @@
 .home > section > header {
   color: vars.$color__white;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
   font-weight: 600;
 
-  margin-bottom: 0.8rem;
+  margin-bottom: vars.$margin__mb-related;
 }
 
 .home > section > div {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: vars.$gap__mb;
 
   overflow-x: scroll;
   scrollbar-width: none;

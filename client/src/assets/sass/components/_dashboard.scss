@@ -28,7 +28,7 @@
 .dashboard__secondary-nav-greeting {
   color: vars.$color__white;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
   font-weight: 800;
 }
 
@@ -44,7 +44,7 @@
 .dashboard__secondary-nav > a > svg {
   color: vars.$color__white;
 
-  font-size: 2rem;
+  font-size: vars.$font__mb-header;
 }
 
 .dashboard__secondary-nav-profile {
