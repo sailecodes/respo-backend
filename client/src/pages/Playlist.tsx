@@ -1,4 +1,4 @@
-import { FaPlayCircle, FaAngleLeft, FaPlusCircle } from "react-icons/fa";
+import { FaPlayCircle, FaPlusCircle } from "react-icons/fa";
 import PlaylistSongsItem from "../components/PlaylistSongsItem";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const Playlist = ({ owner = "Unknown" }: { owner: string }) => {
     <main className="playlist">
       <div>
         <button className="playlist__back-btn" onClick={() => navigate(-1)}>
-          <FaAngleLeft />
+          Back
         </button>
         {/* <img src="" alt="" /> */}
         <div className="playlist__img-dummy" />
