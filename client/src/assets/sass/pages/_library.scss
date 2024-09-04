@@ -24,8 +24,80 @@
   font-size: 1.1rem;
 }
 
+.library__sort-popup {
+  display: none;
+}
+
+.library__sort-popup.active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: unset;
+
+  background-color: vars.$color__bg_popup;
+}
+
+.library__sort-popup > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+
+  background-color: vars.$color__bg-alt;
+
+  width: 25rem;
+
+  padding: 2rem;
+  border-radius: 3px;
+}
+
+.library__sort-popup > div > header {
+  color: vars.$color__white_alt;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.library__sort-popup > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.library__sort-popup > div > button {
+  color: vars.$color__white-alt;
+
+  width: 100%;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  margin-top: auto;
+}
+
 .library__playlists {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+}
+
+////////////////
+
+.library-sort-popup-option {
+  color: vars.$color__white;
+
+  font-size: 1.1rem;
+}
+
+.library-sort-popup-option.active {
+  color: vars.$color__highlight-alt;
+
+  font-weight: 600;
 }

@@ -1,0 +1,15 @@
+@use "../base/variables" as vars;
+
+.search-genres-item {
+  background-color: gray;
+
+  padding: 1rem;
+  border-radius: 3px;
+}
+
+.search-genres-item > p {
+  color: vars.$color__white;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+}
